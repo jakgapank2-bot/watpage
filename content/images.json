@@ -1,0 +1,26 @@
+{
+  "hero": {
+    "src": "/images/hero/hero-bg.webp",
+    "alt": "วัฒน์จัดให้ มากกว่าบริการ คือคู่คิด — เรื่องรถ เรื่องเงิน ให้เป็นเรื่องง่าย สินเชื่อรถยนต์ ผ่อนง่าย อนุมัติไว",
+    "width": 1983,
+    "height": 793
+  },
+  "about": {
+    "src": "/images/about/about-main.webp",
+    "alt": "สำนักงานและทีมงานของวัฒน์จัดให้",
+    "width": 900,
+    "height": 620
+  },
+  "cta": {
+    "src": "/images/cta/cta-bg.webp",
+    "alt": "",
+    "width": 1600,
+    "height": 440
+  },
+  "lineQr": {
+    "src": "/images/contact/line-qr.webp",
+    "alt": "QR Code สำหรับเพิ่มเพื่อนทาง LINE",
+    "width": 376,
+    "height": 376
+  }
+}

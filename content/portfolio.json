@@ -1,0 +1,70 @@
+{
+  "categories": [
+    "ทั้งหมด",
+    "จัดไฟแนนซ์",
+    "ติดตามหนี้",
+    "จดทะเบียน EV"
+  ],
+  "items": [
+    {
+      "id": "p-01",
+      "image": "/images/portfolio/portfolio-01.webp",
+      "imageAlt": "ตัวอย่างผลงานจัดไฟแนนซ์รถกระบะ Toyota Hilux Revo",
+      "category": "จัดไฟแนนซ์",
+      "title": "จัดไฟแนนซ์สำเร็จ",
+      "description": "Toyota Hilux Revo",
+      "badge": "สำเร็จแล้ว",
+      "date": "ม.ค. 2026"
+    },
+    {
+      "id": "p-02",
+      "image": "/images/portfolio/portfolio-02.webp",
+      "imageAlt": "ตัวอย่างผลงานรีไฟแนนซ์รถยนต์เก๋ง Honda Civic",
+      "category": "จัดไฟแนนซ์",
+      "title": "รีไฟแนนซ์ผ่าน",
+      "description": "Honda Civic",
+      "badge": "สำเร็จแล้ว",
+      "date": "ก.พ. 2026"
+    },
+    {
+      "id": "p-03",
+      "image": "/images/portfolio/portfolio-03.webp",
+      "imageAlt": "ตัวอย่างผลงานจดทะเบียนรถยนต์ไฟฟ้า BYD ATTO 3",
+      "category": "จดทะเบียน EV",
+      "title": "จดทะเบียนรถยนต์ไฟฟ้า",
+      "description": "BYD ATTO 3",
+      "badge": "สำเร็จแล้ว",
+      "date": "มี.ค. 2026"
+    },
+    {
+      "id": "p-04",
+      "image": "/images/portfolio/portfolio-04.webp",
+      "imageAlt": "ตัวอย่างผลงานติดตามหนี้และปิดบัญชีได้ตามเป้า",
+      "category": "ติดตามหนี้",
+      "title": "ติดตามหนี้สำเร็จ",
+      "description": "ปิดบัญชีได้ตามเป้า",
+      "badge": "สำเร็จแล้ว",
+      "date": "เม.ย. 2026"
+    },
+    {
+      "id": "p-05",
+      "image": "/images/portfolio/portfolio-05.webp",
+      "imageAlt": "ตัวอย่างผลงานจัดไฟแนนซ์รถยนต์มือสอง",
+      "category": "จัดไฟแนนซ์",
+      "title": "จัดไฟแนนซ์รถมือสอง",
+      "description": "รถยนต์มือสอง",
+      "badge": "สำเร็จแล้ว",
+      "date": "พ.ค. 2026"
+    },
+    {
+      "id": "p-06",
+      "image": "/images/portfolio/portfolio-06.webp",
+      "imageAlt": "ตัวอย่างผลงานจดทะเบียน EV ครบทุกขั้นตอน",
+      "category": "จดทะเบียน EV",
+      "title": "จดทะเบียน EV",
+      "description": "ดำเนินการครบทุกขั้นตอน",
+      "badge": "สำเร็จแล้ว",
+      "date": "มิ.ย. 2026"
+    }
+  ]
+}

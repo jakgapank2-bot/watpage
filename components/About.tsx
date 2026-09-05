@@ -3,7 +3,7 @@ import { ArrowRight, Info, MessageSquareText, Settings2, Users, Zap } from "luci
 import Reveal from "./Reveal";
 import { asset } from "@/lib/asset";
 import { images } from "@/data/images";
-import { aboutFeatures } from "@/data/site";
+import { aboutFeatures, sections } from "@/data/site";
 
 const icons = {
   message: MessageSquareText,
@@ -37,21 +37,19 @@ export default function About() {
           <Reveal delay={100}>
             <div className="text-center lg:text-start">
               <h2 className="text-3xl font-extrabold tracking-tight text-brown-900 sm:text-[2.1rem]">
-                ทำไมลูกค้าถึงเลือกวัฒน์จัดให้
+                {sections.about.title}
               </h2>
 
-              <p className="mt-4 text-lg leading-snug font-bold text-brown-800">
-                “เราเชื่อว่าเรื่องรถและเรื่องเงิน
-                <br className="hidden sm:block" /> ไม่ควรเป็นเรื่องที่ยุ่งยาก”
+              <p className="mt-4 text-lg leading-snug font-bold whitespace-pre-line text-brown-800">
+                {sections.about.quote}
               </p>
 
-              <p className="mt-3 text-[15px] leading-relaxed text-brown-800/65">
-                วัฒน์จัดให้ พร้อมช่วยดูแลตั้งแต่การให้คำปรึกษา การจัดไฟแนนซ์ การติดตามงาน
-                ไปจนถึงขั้นตอนต่าง ๆ ที่เกี่ยวข้อง ด้วยทีมงานมืออาชีพ และการบริการที่จริงใจ
+              <p className="mt-3 text-[15px] leading-relaxed whitespace-pre-line text-brown-800/65">
+                {sections.about.body}
               </p>
 
               <a href="#contact" className="btn-primary mt-6 px-7 py-3 text-[15px]">
-                รู้จักเรามากขึ้น
+                {sections.about.buttonLabel}
                 <ArrowRight className="size-4" aria-hidden="true" />
               </a>
             </div>

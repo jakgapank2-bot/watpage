@@ -2,6 +2,7 @@ import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import ServiceCard from "./ServiceCard";
 import { services } from "@/data/services";
+import { sections } from "@/data/site";
 
 export default function Services() {
   return (
@@ -9,8 +10,8 @@ export default function Services() {
       <div className="container-page">
         <Reveal>
           <SectionHeading
-            title="บริการของวัฒน์จัดให้"
-            subtitle="ครบ จบ ในที่เดียว ตอบโจทย์ทุกความต้องการเรื่องรถยนต์"
+            title={sections.services.title}
+            subtitle={sections.services.subtitle}
           />
         </Reveal>
 

@@ -1,0 +1,161 @@
+{
+  "site": {
+    "name": "วัฒน์จัดให้",
+    "tagline": "เรื่องรถ เรื่องเงิน ให้เป็นเรื่องง่าย",
+    "description": "บริการจัดไฟแนนซ์รถยนต์ รีไฟแนนซ์ ติดตามหนี้ และจดทะเบียนรถยนต์ไฟฟ้า ดูแลครบทุกขั้นตอนโดยทีมงานมืออาชีพ",
+    "url": "https://jakgapank2-bot.github.io/watpage",
+    "copyrightYear": "2026"
+  },
+  "contact": {
+    "phone": "081-234-5678",
+    "phoneHref": "tel:0812345678",
+    "lineId": "@วัฒน์จัดให้",
+    "lineUrl": "https://line.me/R/ti/p/@example",
+    "email": "contact@example.com",
+    "address": "ให้บริการทั่วประเทศ",
+    "hours": "จันทร์ - เสาร์  09:00 - 18:00 น."
+  },
+  "social": [
+    {
+      "name": "Facebook",
+      "url": "https://facebook.com/",
+      "icon": "facebook"
+    },
+    {
+      "name": "YouTube",
+      "url": "https://youtube.com/",
+      "icon": "youtube"
+    },
+    {
+      "name": "TikTok",
+      "url": "https://tiktok.com/",
+      "icon": "tiktok"
+    },
+    {
+      "name": "LINE",
+      "url": "https://line.me/",
+      "icon": "line"
+    }
+  ],
+  "navLinks": [
+    {
+      "label": "หน้าแรก",
+      "href": "#home"
+    },
+    {
+      "label": "บริการของเรา",
+      "href": "#services"
+    },
+    {
+      "label": "ผลงาน",
+      "href": "#portfolio"
+    },
+    {
+      "label": "เกี่ยวกับเรา",
+      "href": "#about"
+    },
+    {
+      "label": "ติดต่อเรา",
+      "href": "#contact"
+    }
+  ],
+  "heroHighlights": [
+    {
+      "icon": "shield",
+      "title": "เชื่อถือได้",
+      "subtitle": "ดูแลครบทุกขั้นตอน"
+    },
+    {
+      "icon": "users",
+      "title": "ทีมงานมืออาชีพ",
+      "subtitle": "ประสบการณ์จริง"
+    },
+    {
+      "icon": "zap",
+      "title": "รวดเร็ว",
+      "subtitle": "ประสานงานไว"
+    },
+    {
+      "icon": "heart",
+      "title": "ดูแลต่อเนื่อง",
+      "subtitle": "ไม่ทิ้งลูกค้า"
+    }
+  ],
+  "aboutFeatures": [
+    {
+      "icon": "users",
+      "title": "ให้คำปรึกษาแบบมืออาชีพ"
+    },
+    {
+      "icon": "gear",
+      "title": "ดูแลทุกขั้นตอน"
+    },
+    {
+      "icon": "zap",
+      "title": "ประสานงานรวดเร็ว"
+    },
+    {
+      "icon": "info",
+      "title": "ให้ข้อมูลตรงไปตรงมา"
+    }
+  ],
+  "processSteps": [
+    {
+      "number": "01",
+      "icon": "message",
+      "title": "ปรึกษา",
+      "detail": "พูดคุยความต้องการ"
+    },
+    {
+      "number": "02",
+      "icon": "search",
+      "title": "ตรวจสอบข้อมูล",
+      "detail": "ประเมินและแนะนำแนวทาง"
+    },
+    {
+      "number": "03",
+      "icon": "settings",
+      "title": "ดำเนินการ",
+      "detail": "ทีมงานประสานงานให้"
+    },
+    {
+      "number": "04",
+      "icon": "check",
+      "title": "สำเร็จ",
+      "detail": "ส่งมอบและดูแลต่อเนื่อง"
+    }
+  ],
+  "sections": {
+    "services": {
+      "title": "บริการของวัฒน์จัดให้",
+      "subtitle": "ครบ จบ ในที่เดียว ตอบโจทย์ทุกความต้องการเรื่องรถยนต์"
+    },
+    "portfolio": {
+      "title": "ผลงานของเรา",
+      "subtitle": "ตัวอย่างผลงานจริงในแต่ละบริการ ที่เราภูมิใจ",
+      "linkLabel": "ดูผลงานทั้งหมด"
+    },
+    "about": {
+      "title": "ทำไมลูกค้าถึงเลือกวัฒน์จัดให้",
+      "quote": "“เราเชื่อว่าเรื่องรถและเรื่องเงิน ไม่ควรเป็นเรื่องที่ยุ่งยาก”",
+      "body": "วัฒน์จัดให้ พร้อมช่วยดูแลตั้งแต่การให้คำปรึกษา การจัดไฟแนนซ์ การติดตามงาน ไปจนถึงขั้นตอนต่าง ๆ ที่เกี่ยวข้อง ด้วยทีมงานมืออาชีพ และการบริการที่จริงใจ",
+      "buttonLabel": "รู้จักเรามากขึ้น"
+    },
+    "process": {
+      "title": "ขั้นตอนการใช้บริการ",
+      "subtitle": "ง่าย ครบ จบในที่เดียว 4 ขั้นตอน"
+    },
+    "cta": {
+      "title": "พร้อมให้คำปรึกษา",
+      "highlight": "ฟรี!",
+      "subtitle": "ให้เรื่องรถ เป็นเรื่องง่าย แค่เข้ามาคุยกับเรา",
+      "script": "“เรื่องรถ...\nไว้ใจ วัฒน์จัดให้”",
+      "primaryLabel": "ปรึกษาฟรีตอนนี้",
+      "lineLabel": "แอดไลน์"
+    },
+    "hero": {
+      "primaryLabel": "ปรึกษาฟรี",
+      "secondaryLabel": "ดูผลงานของเรา"
+    }
+  }
+}

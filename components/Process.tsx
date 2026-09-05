@@ -1,7 +1,7 @@
 import { Check, ChevronRight, FileSearch, MessageSquareText, Settings2 } from "lucide-react";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
-import { processSteps } from "@/data/site";
+import { processSteps, sections } from "@/data/site";
 
 const icons = {
   message: MessageSquareText,
@@ -15,7 +15,7 @@ export default function Process() {
     <section className="scroll-mt-16 bg-cream-100 pb-16 lg:pb-20">
       <div className="container-page">
         <Reveal>
-          <SectionHeading title="ขั้นตอนการใช้บริการ" subtitle="ง่าย ครบ จบในที่เดียว 4 ขั้นตอน" />
+          <SectionHeading title={sections.process.title} subtitle={sections.process.subtitle} />
         </Reveal>
 
         <ol className="mt-10 flex flex-col items-stretch gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-2">

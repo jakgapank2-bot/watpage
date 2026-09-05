@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ระบบหลังบ้าน · วัฒน์จัดให้</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --brown-950:#241408; --brown-900:#33200f; --brown-800:#452b15; --brown-700:#5c391b;
+    --brown-600:#7a4f26; --brown-300:#c9a063; --brown-100:#efe2cb; --brown-50:#faf4ea;
+    --gold:#c9a227; --cream:#fdfaf5; --line:#e6d9c4;
+    --ok:#15803d; --danger:#b91c1c;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--brown-900);
+    font-family:"Noto Sans Thai",system-ui,sans-serif;font-size:15px;line-height:1.6}
+
+  /* ---------- header ---------- */
+  header{position:sticky;top:0;z-index:20;background:linear-gradient(135deg,var(--brown-900),var(--brown-700));
+    color:#fff;padding:14px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+    box-shadow:0 6px 20px -12px rgba(0,0,0,.7)}
+  header h1{margin:0;font-size:18px;font-weight:800;flex:1;min-width:200px}
+  header .hint{font-size:12.5px;color:var(--brown-100);font-weight:400;display:block;margin-top:2px}
+  .btn{border:0;border-radius:999px;padding:10px 22px;font:inherit;font-weight:700;cursor:pointer;
+    transition:filter .15s, transform .15s}
+  .btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .btn-save{background:var(--gold);color:var(--brown-950)}
+  .btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25)}
+  .btn-sm{padding:5px 13px;font-size:13px}
+  .btn-danger{background:#fde8e8;color:var(--danger)}
+  .btn-plain{background:var(--brown-100);color:var(--brown-800)}
+
+  #status{font-size:13.5px;font-weight:700;min-width:120px}
+
+  /* ---------- tabs ---------- */
+  nav{display:flex;gap:6px;overflow-x:auto;padding:12px 20px 0;background:var(--cream);
+    position:sticky;top:64px;z-index:15;border-bottom:1px solid var(--line)}
+  nav button{border:0;background:transparent;font:inherit;font-weight:700;color:#8a7a63;
+    padding:9px 15px;border-radius:10px 10px 0 0;cursor:pointer;white-space:nowrap}
+  nav button.active{background:#fff;color:var(--brown-800);box-shadow:0 -2px 0 var(--gold) inset}
+
+  /* ---------- layout ---------- */
+  main{max-width:960px;margin:0 auto;padding:22px 20px 90px}
+  .panel{display:none}
+  .panel.active{display:block}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+  .card > h2{margin:0 0 4px;font-size:17px;font-weight:800}
+  .card > .desc{margin:0 0 14px;font-size:13px;color:#8a7a63}
+
+  .grid{display:grid;gap:14px}
+  @media(min-width:700px){.grid.two{grid-template-columns:1fr 1fr}}
+
+  label{display:block;font-size:13px;font-weight:700;color:var(--brown-700);margin-bottom:5px}
+  label .sub{font-weight:400;color:#9c8b72}
+  input[type=text],textarea,select{width:100%;padding:9px 12px;border:1px solid var(--line);
+    border-radius:9px;font:inherit;background:#fffdf9;color:var(--brown-900)}
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:transparent}
+  textarea{resize:vertical;min-height:76px}
+
+  .item{border:1px solid var(--line);border-radius:12px;padding:15px;margin-bottom:12px;background:var(--brown-50)}
+  .item-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+  .item-head strong{flex:1;font-size:14px}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+  /* ---------- image widget ---------- */
+  .img-box{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
+  .img-prev{width:190px;height:120px;border-radius:10px;border:1px solid var(--line);
+    background:#f1e9db center/contain no-repeat;flex-shrink:0}
+  .drop{flex:1;min-width:230px;border:2px dashed var(--line);border-radius:10px;padding:14px;
+    text-align:center;font-size:13px;color:#8a7a63;background:#fffdf9;cursor:pointer}
+  .drop.over{border-color:var(--gold);background:#fff8e6;color:var(--brown-800)}
+  .meta{font-size:12px;color:#8a7a63;margin-top:6px;word-break:break-all}
+  .meta b{color:var(--ok)}
+
+  ul.bullets{list-style:none;padding:0;margin:0}
+  ul.bullets li{display:flex;gap:8px;margin-bottom:7px}
+
+  .note{background:#fff8e6;border:1px solid #f0dfae;border-radius:10px;padding:12px 14px;
+    font-size:13px;margin-bottom:16px}
+  .log{background:var(--brown-950);color:#d8ffd8;border-radius:10px;padding:12px;font-size:12px;
+    max-height:260px;overflow:auto;white-space:pre-wrap;margin-top:12px;display:none;
+    font-family:ui-monospace,Consolas,monospace}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ระบบหลังบ้าน · วัฒน์จัดให้
+    <span class="hint">แก้เสร็จกด “บันทึก” แล้ว commit + push ผ่าน GitHub Desktop เพื่ออัปเว็บจริง</span>
+  </h1>
+  <span id="status"></span>
+  <button class="btn btn-ghost" id="reload">โหลดใหม่</button>
+  <button class="btn btn-save" id="save">บันทึก</button>
+</header>
+
+<nav id="tabs"></nav>
+<main id="main"><p style="padding:30px 0;color:#8a7a63">กำลังโหลดเนื้อหา…</p></main>
+
+<script>
+/* ═══════════════ ตัวช่วยสร้าง element ═══════════════ */
+const el = (tag, props = {}, ...kids) => {
+  const n = Object.assign(document.createElement(tag), props);
+  kids.flat().forEach((k) => k != null && n.append(k.nodeType ? k : String(k)));
+  return n;
+};
+const setStatus = (msg, color = "#fff") => {
+  const s = document.getElementById("status");
+  s.textContent = msg;
+  s.style.color = color;
+};
+const kb = (n) => (n >= 1048576 ? (n / 1048576).toFixed(2) + " MB" : Math.round(n / 1024) + " KB");
+
+let state = null;
+let dirty = false;
+const markDirty = () => { dirty = true; setStatus("● ยังไม่ได้บันทึก", "#ffd97a"); };
+
+/* ช่องกรอกข้อความผูกกับ object */
+function field(obj, key, labelText, { area = false, sub = "", placeholder = "" } = {}) {
+  const input = area
+    ? el("textarea", { value: obj[key] ?? "", placeholder })
+    : el("input", { type: "text", value: obj[key] ?? "", placeholder });
+  input.addEventListener("input", () => { obj[key] = input.value; markDirty(); });
+  return el("div", {},
+    el("label", {}, labelText, sub ? el("span", { className: "sub" }, " — " + sub) : null),
+    input);
+}
+
+function selectField(obj, key, labelText, options) {
+  const sel = el("select", {});
+  options.forEach((o) => sel.append(el("option", { value: o, selected: obj[key] === o }, o)));
+  sel.addEventListener("change", () => { obj[key] = sel.value; markDirty(); });
+  return el("div", {}, el("label", {}, labelText), sel);
+}
+
+/* ═══════════════ ช่องอัปโหลดรูป (แปลง WebP อัตโนมัติ) ═══════════════ */
+function imageField(obj, pathKey, { slot, name, label = "รูปภาพ", hint = "", withDims = false }) {
+  const prev = el("div", { className: "img-prev" });
+  const meta = el("div", { className: "meta" });
+  const drop = el("div", { className: "drop" },
+    el("div", {}, "📁 ลากไฟล์รูปมาวาง หรือคลิกเพื่อเลือกไฟล์"),
+    el("div", { style: "margin-top:4px;font-size:12px" }, hint || "ระบบจะแปลงเป็น .webp ให้อัตโนมัติ"));
+
+  const refresh = () => {
+    prev.style.backgroundImage = obj[pathKey] ? `url("${obj[pathKey]}?t=${Date.now()}")` : "none";
+    meta.textContent = obj[pathKey] || "(ยังไม่มีรูป)";
+    if (withDims && obj.width) meta.textContent += `  ·  ${obj.width}×${obj.height}px`;
+  };
+  refresh();
+
+  const input = el("input", { type: "file", accept: "image/*", style: "display:none" });
+
+  const upload = async (file) => {
+    if (!file) return;
+    drop.textContent = "⏳ กำลังแปลงเป็น WebP…";
+    try {
+      const q = new URLSearchParams({ slot, name: name || file.name });
+      const r = await fetch(`/api/upload?${q}`, { method: "POST", body: file });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || "อัปโหลดไม่สำเร็จ");
+      obj[pathKey] = data.src;
+      if (withDims) { obj.width = data.width; obj.height = data.height; }
+      markDirty();
+      refresh();
+      drop.innerHTML = "";
+      drop.append(
+        el("div", { style: "color:#15803d;font-weight:700" }, "✔ แปลงเป็น WebP แล้ว"),
+        el("div", { style: "margin-top:4px" },
+          `${kb(data.originalBytes)} → ${kb(data.bytes)} ` +
+          `(เล็กลง ${Math.max(0, Math.round((1 - data.bytes / data.originalBytes) * 100))}%)`));
+    } catch (err) {
+      drop.innerHTML = "";
+      drop.append(el("div", { style: "color:#b91c1c;font-weight:700" }, "✖ " + err.message));
+    }
+  };
+
+  input.addEventListener("change", () => upload(input.files[0]));
+  drop.addEventListener("click", () => input.click());
+  drop.addEventListener("dragover", (e) => { e.preventDefault(); drop.classList.add("over"); });
+  drop.addEventListener("dragleave", () => drop.classList.remove("over"));
+  drop.addEventListener("drop", (e) => {
+    e.preventDefault();
+    drop.classList.remove("over");
+    upload(e.dataTransfer.files[0]);
+  });
+
+  return el("div", {},
+    el("label", {}, label),
+    el("div", { className: "img-box" }, prev, el("div", { style: "flex:1;min-width:230px" }, drop, meta)),
+    input);
+}
+
+/* ═══════════════ รายการที่เพิ่ม/ลบ/เลื่อนได้ ═══════════════ */
+function itemControls(list, i, rerender) {
+  const move = (d) => {
+    const j = i + d;
+    if (j < 0 || j >= list.length) return;
+    [list[i], list[j]] = [list[j], list[i]];
+    markDirty(); rerender();
+  };
+  return el("div", { className: "row" },
+    el("button", { className: "btn btn-plain btn-sm", onclick: () => move(-1), title: "เลื่อนขึ้น" }, "↑"),
+    el("button", { className: "btn btn-plain btn-sm", onclick: () => move(1), title: "เลื่อนลง" }, "↓"),
+    el("button", {
+      className: "btn btn-danger btn-sm",
+      onclick: () => {
+        if (!confirm("ลบรายการนี้?")) return;
+        list.splice(i, 1); markDirty(); rerender();
+      },
+    }, "ลบ"));
+}
+
+/* ═══════════════ แต่ละแท็บ ═══════════════ */
+const TABS = [
+  ["ข้อมูลเว็บไซต์", renderSite],
+  ["Hero (หัวเว็บ)", renderHero],
+  ["บริการ", renderServices],
+  ["ผลงาน", renderPortfolio],
+  ["เกี่ยวกับเรา", renderAbout],
+  ["ขั้นตอน", renderProcess],
+  ["แถบ CTA", renderCTA],
+  ["รูป & WebP", renderImages],
+];
+
+function renderSite() {
+  const s = state.site.site, c = state.site.contact;
+  return [
+    el("div", { className: "card" },
+      el("h2", {}, "ข้อมูลแบรนด์"),
+      el("p", { className: "desc" }, "แสดงบนโลโก้ ชื่อแท็บเบราว์เซอร์ และตอนแชร์ลิงก์"),
+      el("div", { className: "grid two" },
+        field(s, "name", "ชื่อแบรนด์"),
+        field(s, "tagline", "สโลแกน"),
+        field(s, "copyrightYear", "ปีลิขสิทธิ์"),
+        field(s, "url", "URL ของเว็บ", { sub: "ใช้กับ SEO / ตอนแชร์ลิงก์" })),
+      field(s, "description", "คำอธิบายเว็บไซต์ (SEO)", { area: true })),
+
+    el("div", { className: "card" },
+      el("h2", {}, "ช่องทางติดต่อ"),
+      el("p", { className: "desc" }, "ใช้ในปุ่มทุกจุดของเว็บและแถบท้ายเว็บ"),
+      el("div", { className: "grid two" },
+        field(c, "phone", "เบอร์โทร (ที่แสดง)"),
+        field(c, "phoneHref", "ลิงก์โทร", { sub: "ห้ามมีขีด เช่น tel:0812345678" }),
+        field(c, "lineId", "LINE ID (ที่แสดง)"),
+        field(c, "lineUrl", "ลิงก์แอดไลน์"),
+        field(c, "hours", "เวลาทำการ"),
+        field(c, "address", "พื้นที่ให้บริการ"))),
+
+    el("div", { className: "card" },
+      el("h2", {}, "โซเชียล"),
+      el("p", { className: "desc" }, "ไอคอนที่แสดงในแถบท้ายเว็บ"),
+      ...state.site.social.map((it) =>
+        el("div", { className: "grid two", style: "margin-bottom:10px" },
+          field(it, "name", "ชื่อ"), field(it, "url", "ลิงก์")))),
+
+    el("div", { className: "card" },
+      el("h2", {}, "เมนู"),
+      el("p", { className: "desc" }, "แก้ได้เฉพาะข้อความ (ลิงก์ #… ห้ามเปลี่ยน)"),
+      ...state.site.navLinks.map((it) =>
+        el("div", { className: "grid two", style: "margin-bottom:10px" },
+          field(it, "label", "ข้อความเมนู"),
+          el("div", {}, el("label", {}, "ลิงก์"),
+            el("input", { type: "text", value: it.href, disabled: true }))))),
+  ];
+}
+
+function renderHero(rerender) {
+  const h = state.site.sections.hero;
+  return [
+    el("div", { className: "note" },
+      "⚠️ ภาพ Hero ปัจจุบันเป็นแบนเนอร์ที่มีตัวหนังสือฝังมาในรูปแล้ว เว็บจึงไม่วางข้อความทับ ",
+      "ถ้าเปลี่ยนเป็นรูปที่ไม่มีตัวหนังสือ ให้แจ้งผู้ดูแลระบบเพื่อย้ายข้อความกลับมาเป็นตัวอักษร HTML"),
+
+    el("div", { className: "card" },
+      el("h2", {}, "ภาพแบนเนอร์"),
+      el("p", { className: "desc" }, "แนะนำแนวนอนยาว ประมาณ 1920×760 px ขึ้นไป"),
+      imageField(state.images.hero, "src",
+        { slot: "hero", name: "hero-bg", label: "ภาพหัวเว็บ", withDims: true }),
+      el("div", { style: "margin-top:14px" },
+        field(state.images.hero, "alt", "คำอธิบายภาพ (alt)", { area: true, sub: "สำคัญกับ SEO" }))),
+
+    el("div", { className: "card" },
+      el("h2", {}, "ปุ่มใต้แบนเนอร์"),
+      el("div", { className: "grid two" },
+        field(h, "primaryLabel", "ปุ่มหลัก"),
+        field(h, "secondaryLabel", "ปุ่มรอง"))),
+
+    el("div", { className: "card" },
+      el("h2", {}, "4 จุดเด่น"),
+      el("p", { className: "desc" }, "แสดงบนมือถือ (บนจอใหญ่อ่านจากในภาพแบนเนอร์)"),
+      ...state.site.heroHighlights.map((it, i) =>
+        el("div", { className: "item" },
+          el("div", { className: "item-head" }, el("strong", {}, "จุดเด่นที่ " + (i + 1))),
+          el("div", { className: "grid two" },
+            field(it, "title", "หัวข้อ"),
+            field(it, "subtitle", "คำอธิบาย"),
+            selectField(it, "icon", "ไอคอน", ["shield", "users", "zap", "heart"]))))),
+  ];
+}
+
+function renderServices(rerender) {
+  const sec = state.site.sections.services;
+  const list = state.services.services;
+  return [
+    el("div", { className: "card" },
+      el("h2", {}, "หัวข้อส่วนบริการ"),
+      field(sec, "title", "หัวข้อ"),
+      el("div", { style: "margin-top:12px" }, field(sec, "subtitle", "คำโปรย"))),
+
+    el("div", { className: "card" },
+      el("h2", {}, "การ์ดบริการ"),
+      el("p", { className: "desc" }, "รูปแนะนำ 800×520 px"),
+      ...list.map((it, i) =>
+        el("div", { className: "item" },
+          el("div", { className: "item-head" },
+            el("strong", {}, `${it.number} · ${it.title}`),
+            itemControls(list, i, rerender)),
+          el("div", { className: "grid two" },
+            field(it, "number", "เลขลำดับ"),
+            field(it, "title", "ชื่อบริการ"),
+            selectField(it, "icon", "ไอคอน", ["car", "file", "bolt"])),
+          el("div", { style: "margin:12px 0" }, field(it, "description", "รายละเอียด", { area: true })),
+          el("div", { style: "margin-bottom:12px" },
+            el("label", {}, "หัวข้อย่อย (bullet)"),
+            el("ul", { className: "bullets" },
+              ...it.bullets.map((b, bi) => {
+                const inp = el("input", { type: "text", value: b });
+                inp.addEventListener("input", () => { it.bullets[bi] = inp.value; markDirty(); });
+                return el("li", {}, inp,
+                  el("button", {
+                    className: "btn btn-danger btn-sm",
+                    onclick: () => { it.bullets.splice(bi, 1); markDirty(); rerender(); },
+                  }, "ลบ"));
+              })),
+            el("button", {
+              className: "btn btn-plain btn-sm", style: "margin-top:6px",
+              onclick: () => { it.bullets.push("หัวข้อใหม่"); markDirty(); rerender(); },
+            }, "+ เพิ่มหัวข้อย่อย")),
+          imageField(it, "image", { slot: "services", name: "service-" + it.number, label: "รูปการ์ด" }),
+          el("div", { style: "margin-top:12px" }, field(it, "imageAlt", "คำอธิบายภาพ (alt)")))),
+      el("button", {
+        className: "btn btn-plain",
+        onclick: () => {
+          list.push({
+            id: "svc-" + Date.now(), number: String(list.length + 1).padStart(2, "0"),
+            icon: "car", title: "บริการใหม่", description: "", bullets: [],
+            image: "", imageAlt: "",
+          });
+          markDirty(); rerender();
+        },
+      }, "+ เพิ่มบริการ")),
+  ];
+}
+
+function renderPortfolio(rerender) {
+  const sec = state.site.sections.portfolio;
+  const p = state.portfolio;
+  return [
+    el("div", { className: "card" },
+      el("h2", {}, "หัวข้อส่วนผลงาน"),
+      el("div", { className: "grid two" },
+        field(sec, "title", "หัวข้อ"),
+        field(sec, "linkLabel", "ข้อความลิงก์มุมขวา")),
+      el("div", { style: "margin-top:12px" }, field(sec, "subtitle", "คำโปรย"))),
+
+    el("div", { className: "card" },
+      el("h2", {}, "หมวดหมู่ (ปุ่มกรอง)"),
+      el("p", { className: "desc" }, "รายการแรกคือ “ทั้งหมด” ห้ามลบ · ชื่อหมวดต้องตรงกับที่ใส่ในผลงาน"),
+      el("ul", { className: "bullets" },
+        ...p.categories.map((c, i) => {
+          const inp = el("input", { type: "text", value: c, disabled: i === 0 });
+          inp.addEventListener("input", () => { p.categories[i] = inp.value; markDirty(); });
+          return el("li", {}, inp,
+            i === 0 ? null : el("button", {
+              className: "btn btn-danger btn-sm",
+              onclick: () => { p.categories.splice(i, 1); markDirty(); rerender(); },
+            }, "ลบ"));
+        })),
+      el("button", {
+        className: "btn btn-plain btn-sm", style: "margin-top:8px",
+        onclick: () => { p.categories.push("หมวดใหม่"); markDirty(); rerender(); },
+      }, "+ เพิ่มหมวด")),
+
+    el("div", { className: "card" },
+      el("h2", {}, "รายการผลงาน"),
+      el("p", { className: "desc" }, "รูปแนะนำ 1000×700 px (อัตราส่วน 4:3)"),
+      ...p.items.map((it, i) =>
+        el("div", { className: "item" },
+          el("div", { className: "item-head" },
+            el("strong", {}, `${i + 1}. ${it.title}`),
+            itemControls(p.items, i, rerender)),
+          el("div", { className: "grid two" },
+            field(it, "title", "ชื่อผลงาน"),
+            field(it, "description", "รายละเอียดสั้น ๆ", { sub: "เช่น รุ่นรถ" }),
+            selectField(it, "category", "หมวดหมู่", p.categories.slice(1)),
+            field(it, "date", "วันที่ / เดือนปี"),
+            field(it, "badge", "ป้ายสถานะ")),
+          el("div", { style: "margin:12px 0" },
+            imageField(it, "image", { slot: "portfolio", name: it.id, label: "รูปผลงาน" })),
+          field(it, "imageAlt", "คำอธิบายภาพ (alt)"))),
+      el("button", {
+        className: "btn btn-plain",
+        onclick: () => {
+          p.items.push({
+            id: "p-" + Date.now(), image: "", imageAlt: "",
+            category: p.categories[1] ?? "", title: "ผลงานใหม่", description: "",
+            badge: "สำเร็จแล้ว", date: "",
+          });
+          markDirty(); rerender();
+        },
+      }, "+ เพิ่มผลงาน")),
+  ];
+}
+
+function renderAbout() {
+  const a = state.site.sections.about;
+  return [
+    el("div", { className: "card" },
+      el("h2", {}, "ข้อความ"),
+      field(a, "title", "หัวข้อ"),
+      el("div", { style: "margin-top:12px" },
+        field(a, "quote", "ประโยคเด่น", { area: true, sub: "ขึ้นบรรทัดใหม่ได้" })),
+      el("div", { style: "margin-top:12px" }, field(a, "body", "เนื้อหา", { area: true })),
+      el("div", { style: "margin-top:12px" }, field(a, "buttonLabel", "ข้อความบนปุ่ม"))),
+
+    el("div", { className: "card" },
+      el("h2", {}, "ภาพประกอบ"),
+      el("p", { className: "desc" }, "แนะนำ 900×620 px — เช่น หน้าร้าน โชว์รูม หรือทีมงาน"),
+      imageField(state.images.about, "src",
+        { slot: "about", name: "about-main", label: "ภาพเกี่ยวกับเรา", withDims: true }),
+      el("div", { style: "margin-top:12px" }, field(state.images.about, "alt", "คำอธิบายภาพ (alt)"))),
+
+    el("div", { className: "card" },
+      el("h2", {}, "รายการจุดเด่น"),
+      ...state.site.aboutFeatures.map((it, i) =>
+        el("div", { className: "item" },
+          el("div", { className: "grid two" },
+            field(it, "title", `จุดเด่นที่ ${i + 1}`),
+            selectField(it, "icon", "ไอคอน", ["users", "gear", "zap", "info"]))))),
+  ];
+}
+
+function renderProcess() {
+  const sec = state.site.sections.process;
+  return [
+    el("div", { className: "card" },
+      el("h2", {}, "หัวข้อส่วนขั้นตอน"),
+      field(sec, "title", "หัวข้อ"),
+      el("div", { style: "margin-top:12px" }, field(sec, "subtitle", "คำโปรย"))),
+    el("div", { className: "card" },
+      el("h2", {}, "ขั้นตอน"),
+      ...state.site.processSteps.map((it, i) =>
+        el("div", { className: "item" },
+          el("div", { className: "item-head" }, el("strong", {}, "ขั้นตอนที่ " + (i + 1))),
+          el("div", { className: "grid two" },
+            field(it, "number", "เลขลำดับ"),
+            field(it, "title", "ชื่อขั้นตอน"),
+            field(it, "detail", "คำอธิบาย"),
+            selectField(it, "icon", "ไอคอน", ["message", "search", "settings", "check"]))))),
+  ];
+}
+
+function renderCTA() {
+  const c = state.site.sections.cta;
+  return [
+    el("div", { className: "card" },
+      el("h2", {}, "ข้อความแถบชวนติดต่อ"),
+      el("div", { className: "grid two" },
+        field(c, "title", "หัวข้อ"),
+        field(c, "highlight", "คำเน้นสีทอง"),
+        field(c, "primaryLabel", "ปุ่มหลัก"),
+        field(c, "lineLabel", "ปุ่มไลน์")),
+      el("div", { style: "margin-top:12px" }, field(c, "subtitle", "คำโปรย")),
+      el("div", { style: "margin-top:12px" },
+        field(c, "script", "ข้อความลายมือฝั่งขวา", { area: true, sub: "ขึ้นบรรทัดใหม่ได้" }))),
+
+    el("div", { className: "card" },
+      el("h2", {}, "ภาพพื้นหลัง"),
+      el("p", { className: "desc" }, "แนะนำ 1600×440 px — ภาพจะถูกคลุมด้วยสีน้ำตาลเข้ม"),
+      imageField(state.images.cta, "src",
+        { slot: "cta", name: "cta-bg", label: "ภาพพื้นหลัง CTA", withDims: true })),
+
+    el("div", { className: "card" },
+      el("h2", {}, "QR Code แอดไลน์"),
+      el("p", { className: "desc" }, "รูปสี่เหลี่ยมจัตุรัส — ดาวน์โหลดจาก LINE OA Manager"),
+      imageField(state.images.lineQr, "src",
+        { slot: "lineQr", name: "line-qr", label: "QR Code", withDims: true })),
+  ];
+}
+
+function renderImages() {
+  const log = el("div", { className: "log" });
+  const btn = el("button", { className: "btn btn-save" }, "แปลงรูปทั้งหมดเป็น WebP");
+  const chk = el("input", { type: "checkbox", id: "delorig" });
+
+  btn.addEventListener("click", async () => {
+    if (!confirm("แปลงรูป .png / .jpg ทั้งหมดใน public/images เป็น .webp?")) return;
+    btn.disabled = true;
+    log.style.display = "block";
+    log.textContent = "กำลังแปลง…\n";
+    try {
+      const r = await fetch("/api/convert-all", {
+        method: "POST",
+        body: JSON.stringify({ deleteOriginals: chk.checked }),
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error);
+
+      // อัปเดต path ในเนื้อหาให้ชี้ไปที่ .webp
+      let text = JSON.stringify(state);
+      let saved = 0, total = 0;
+      data.converted.forEach((c) => {
+        text = text.split(c.from).join(c.to);
+        saved += c.beforeBytes - c.afterBytes;
+        total += c.beforeBytes;
+      });
+      state = JSON.parse(text);
+
+      // อัปเดตขนาดของรูปประจำ section
+      Object.values(state.images).forEach((slot) => {
+        const hit = data.converted.find((c) => c.to === slot.src);
+        if (hit) { slot.width = hit.width; slot.height = hit.height; }
+      });
+
+      log.textContent =
+        `แปลงสำเร็จ ${data.converted.length} ไฟล์\n` +
+        (total ? `ขนาดรวม ${kb(total)} → ${kb(total - saved)}  (เล็กลง ${Math.round((saved / total) * 100)}%)\n\n` : "\n") +
+        data.converted.map((c) => `  ${c.from}\n   → ${c.to}   ${kb(c.beforeBytes)} → ${kb(c.afterBytes)}`).join("\n") +
+        (data.skipped.length ? "\n\nข้าม:\n" + data.skipped.map((s) => `  ${s.file} — ${s.reason}`).join("\n") : "");
+
+      if (data.converted.length) {
+        markDirty();
+        alert("แปลงเสร็จแล้ว และอัปเดต path ให้เรียบร้อย\nอย่าลืมกดปุ่ม “บันทึก” ด้านบน");
+      }
+    } catch (err) {
+      log.textContent = "ผิดพลาด: " + err.message;
+    }
+    btn.disabled = false;
+  });
+
+  return [
+    el("div", { className: "note" },
+      "WebP มีขนาดเล็กกว่า PNG/JPG ประมาณ 25–70% โดยคุณภาพตาแทบไม่เห็นความต่าง ",
+      "ทำให้เว็บโหลดเร็วขึ้นมากโดยเฉพาะบนมือถือ · เบราว์เซอร์ปัจจุบันรองรับทั้งหมด"),
+
+    el("div", { className: "card" },
+      el("h2", {}, "แปลงรูปเดิมทั้งหมดเป็น WebP"),
+      el("p", { className: "desc" },
+        "สแกนทุกไฟล์ .png / .jpg ใน public/images แล้วสร้างไฟล์ .webp พร้อมแก้ path ในเนื้อหาให้อัตโนมัติ"),
+      el("label", { style: "font-weight:400;display:flex;gap:8px;align-items:center;margin-bottom:14px" },
+        chk, "ลบไฟล์ต้นฉบับหลังแปลงเสร็จ (ประหยัดพื้นที่ แต่ย้อนกลับไม่ได้)"),
+      btn, log),
+
+    el("div", { className: "card" },
+      el("h2", {}, "รูปที่อัปโหลดใหม่"),
+      el("p", { className: "desc" },
+        "ทุกรูปที่อัปโหลดผ่านหน้านี้จะถูกแปลงเป็น .webp และย่อขนาดให้พอดีโดยอัตโนมัติอยู่แล้ว ไม่ต้องทำอะไรเพิ่ม")),
+  ];
+}
+
+/* ═══════════════ ระบบแท็บ ═══════════════ */
+let activeTab = Number(new URLSearchParams(location.search).get("tab")) || 0;
+function render() {
+  const nav = document.getElementById("tabs");
+  const main = document.getElementById("main");
+  nav.innerHTML = "";
+  main.innerHTML = "";
+
+  TABS.forEach(([name], i) => {
+    const b = el("button", { className: i === activeTab ? "active" : "" }, name);
+    b.addEventListener("click", () => {
+      activeTab = i;
+      history.replaceState(null, "", i ? "?tab=" + i : location.pathname);
+      render(); window.scrollTo(0, 0);
+    });
+    nav.append(b);
+  });
+
+  const panel = el("div", { className: "panel active" });
+  TABS[activeTab][1](render).forEach((n) => panel.append(n));
+  main.append(panel);
+}
+
+/* ═══════════════ โหลด / บันทึก ═══════════════ */
+async function load() {
+  setStatus("กำลังโหลด…");
+  const r = await fetch("/api/content");
+  state = await r.json();
+  dirty = false;
+  setStatus("");
+  render();
+}
+
+document.getElementById("save").addEventListener("click", async () => {
+  setStatus("กำลังบันทึก…");
+  try {
+    const r = await fetch("/api/content", { method: "POST", body: JSON.stringify(state) });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error);
+    dirty = false;
+    setStatus("✔ บันทึกแล้ว", "#8ef2a4");
+    setTimeout(() => !dirty && setStatus(""), 4000);
+  } catch (err) {
+    setStatus("✖ " + err.message, "#ffb3b3");
+  }
+});
+
+document.getElementById("reload").addEventListener("click", () => {
+  if (dirty && !confirm("มีการแก้ไขที่ยังไม่ได้บันทึก จะทิ้งไปไหม?")) return;
+  load();
+});
+
+window.addEventListener("beforeunload", (e) => {
+  if (dirty) { e.preventDefault(); e.returnValue = ""; }
+});
+
+load();
+</script>
+</body>
+</html>

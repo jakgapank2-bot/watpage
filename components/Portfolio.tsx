@@ -7,6 +7,7 @@ import PortfolioCard from "./PortfolioCard";
 import Reveal from "./Reveal";
 import { asset } from "@/lib/asset";
 import { portfolioCategories, portfolioItems } from "@/data/portfolio";
+import { sections } from "@/data/site";
 
 export default function Portfolio() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -122,17 +123,17 @@ export default function Portfolio() {
           <div className="flex flex-col items-center gap-3 lg:flex-row lg:items-end lg:justify-between">
             <div className="flex-1 text-center lg:text-start">
               <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-[2.1rem]">
-                ผลงานของเรา
+                {sections.portfolio.title}
               </h2>
               <p className="mt-2 text-[15px] text-brown-200">
-                ตัวอย่างผลงานจริงในแต่ละบริการ ที่เราภูมิใจ
+                {sections.portfolio.subtitle}
               </p>
             </div>
             <a
               href="#contact"
               className="inline-flex shrink-0 items-center gap-1.5 text-[15px] font-semibold text-gold-300 transition hover:text-gold-400"
             >
-              ดูผลงานทั้งหมด
+              {sections.portfolio.linkLabel}
               <ArrowRight className="size-4" aria-hidden="true" />
             </a>
           </div>

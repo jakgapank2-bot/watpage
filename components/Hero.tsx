@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ArrowRight, Heart, MessageCircle, ShieldCheck, Users, Zap } from "lucide-react";
 import { asset } from "@/lib/asset";
 import { images } from "@/data/images";
-import { contact, heroHighlights, site } from "@/data/site";
+import { contact, heroHighlights, sections, site } from "@/data/site";
 
 const icons = {
   shield: ShieldCheck,
@@ -51,13 +51,13 @@ export default function Hero() {
             className="btn-primary w-full px-8 py-3.5 text-base ring-1 ring-gold-500/45 sm:w-auto"
           >
             <MessageCircle className="size-5" aria-hidden="true" />
-            ปรึกษาฟรี
+            {sections.hero.primaryLabel}
           </a>
           <a
             href="#portfolio"
             className="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-cream-100/85 bg-white/10 px-8 py-3.5 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-white hover:text-brown-800 sm:w-auto"
           >
-            ดูผลงานของเรา
+            {sections.hero.secondaryLabel}
             <ArrowRight className="size-5" aria-hidden="true" />
           </a>
         </div>
