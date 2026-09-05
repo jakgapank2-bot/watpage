@@ -1,5 +1,4 @@
 import About from "@/components/About";
-import Contact from "@/components/Contact";
 import CTA from "@/components/CTA";
 import FloatingContact from "@/components/FloatingContact";
 import Footer from "@/components/Footer";
@@ -45,7 +44,6 @@ export default function Home() {
         <About />
         <Process />
         <CTA />
-        <Contact />
       </main>
 
       <Footer />

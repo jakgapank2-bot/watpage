@@ -1,51 +1,33 @@
 import type { ReactNode } from "react";
 
 type SectionHeadingProps = {
-  /** ข้อความเล็กด้านบน เช่น OUR SERVICES */
-  eyebrow: string;
   title: ReactNode;
   subtitle?: string;
-  /** true = ใช้บนพื้นหลังสีเข้ม (Navy) */
+  /** true = ใช้บนพื้นหลังสีเข้ม (น้ำตาลเข้ม) */
   onDark?: boolean;
+  align?: "center" | "start";
 };
 
 export default function SectionHeading({
-  eyebrow,
   title,
   subtitle,
   onDark = false,
+  align = "center",
 }: SectionHeadingProps) {
   return (
-    <div className="mx-auto max-w-2xl text-center">
-      <p
-        className={`text-sm font-extrabold tracking-[0.28em] uppercase ${
-          onDark ? "text-brand-300" : "text-brand-600"
-        }`}
-      >
-        {eyebrow}
-      </p>
+    <div className={align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
       <h2
-        className={`mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-[2.75rem] ${
-          onDark ? "text-white" : "text-navy-900"
+        className={`text-3xl font-extrabold tracking-tight sm:text-[2.1rem] ${
+          onDark ? "text-white" : "text-brown-900"
         }`}
       >
         {title}
       </h2>
       {subtitle && (
-        <p
-          className={`mt-4 text-base sm:text-lg ${
-            onDark ? "text-brand-100/80" : "text-navy-900/60"
-          }`}
-        >
+        <p className={`mt-2.5 text-base ${onDark ? "text-brown-200" : "text-brown-800/65"}`}>
           {subtitle}
         </p>
       )}
-      <span
-        className={`mx-auto mt-6 block h-1 w-16 rounded-full ${
-          onDark ? "bg-brand-400" : "bg-brand-600"
-        }`}
-        aria-hidden="true"
-      />
     </div>
   );
 }

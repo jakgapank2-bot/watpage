@@ -4,11 +4,13 @@
 สร้างด้วย **Next.js + TypeScript + Tailwind CSS** เป็น **Static Website 100%**
 ไม่มี Backend / Database / API Server พร้อม Deploy ขึ้น GitHub Pages ได้ทันที
 
+🌐 เว็บจริง: <https://jakgapank2-bot.github.io/watpage/>
+
 ## โครงสร้างหน้าเว็บ
 
 ```
-NAVBAR → HERO → SERVICES → PORTFOLIO (ผลงานที่ผ่านมา) → ABOUT US
-       → PROCESS → CTA → CONTACT → FOOTER
+NAVBAR → HERO → SERVICES → PORTFOLIO (ผลงาน) → ABOUT US
+       → PROCESS → CTA → FOOTER (รวมข้อมูลติดต่อ)
 ```
 
 ---
@@ -18,7 +20,6 @@ NAVBAR → HERO → SERVICES → PORTFOLIO (ผลงานที่ผ่าน
 ต้องมี [Node.js](https://nodejs.org/) เวอร์ชัน 20 ขึ้นไป
 
 ```bash
-# ติดตั้ง dependencies
 npm install
 ```
 
@@ -27,78 +28,127 @@ npm install
 ## 2. วิธีรัน Local
 
 ```bash
-# รันโหมดพัฒนา (แก้โค้ดแล้วเห็นผลทันที)
-npm run dev
+npm run dev     # รันโหมดพัฒนา แก้โค้ดแล้วเห็นผลทันที
 ```
 
 เปิดเบราว์เซอร์ที่ <http://localhost:3000>
 
-คำสั่งอื่น ๆ
-
 ```bash
 npm run build   # สร้างเว็บไซต์ static ลงในโฟลเดอร์ out/
 npm run lint    # ตรวจสอบคุณภาพโค้ด
+npx serve out   # ทดลองเปิดไฟล์ที่ build แล้ว
 ```
-
-หลัง `npm run build` ไฟล์เว็บทั้งหมดจะอยู่ในโฟลเดอร์ `out/`
-ทดลองเปิดแบบ static ได้ด้วย `npx serve out`
 
 ---
 
-## 3. วิธีเพิ่มผลงาน (Portfolio)
+## 3. 📸 วิธีเปลี่ยนรูป (แยกเป็นส่วน ๆ)
 
-ผลงานทั้งหมดเก็บอยู่ในไฟล์เดียวคือ [`data/portfolio.ts`](data/portfolio.ts)
+รูปทุกรูปถูกแยกไว้ตาม section ให้เอาไฟล์ของคุณมาวางแทนได้ง่าย ๆ
 
-**ขั้นตอน**
+### โครงสร้างโฟลเดอร์รูป
 
-1. วางไฟล์รูปไว้ที่ `public/images/portfolio/` เช่น `portfolio-07.jpg`
-2. เพิ่ม object ใหม่เข้าไปใน array `portfolioItems`
+```
+public/images/
+├── hero/hero-bg.svg            ← ภาพหัวเว็บ         (1920 × 760)
+├── services/service-01.svg     ← การ์ดบริการใบที่ 1  (800 × 520)
+│            service-02.svg     ← การ์ดบริการใบที่ 2
+│            service-03.svg     ← การ์ดบริการใบที่ 3
+├── portfolio/portfolio-01.svg  ← ผลงานชิ้นที่ 1     (1000 × 700)
+│            … ถึง portfolio-06.svg
+├── about/about-main.svg        ← ภาพ "เกี่ยวกับเรา"  (900 × 620)
+├── cta/cta-bg.svg              ← พื้นหลังแถบ CTA     (1600 × 440)
+├── contact/line-qr.svg         ← QR Code แอดไลน์     (376 × 376)
+└── og-image.png                ← ภาพตอนแชร์ลิงก์     (1200 × 630)
+```
+
+### วิธีที่ 1 — ง่ายที่สุด (ไม่ต้องแตะโค้ดเลย)
+
+แปลงรูปของคุณเป็น **นามสกุลเดิม** แล้ว **วางทับไฟล์เดิม** ได้เลย
+
+### วิธีที่ 2 — ใช้ไฟล์ .jpg / .webp / .png ของคุณเอง
+
+วางไฟล์ลงในโฟลเดอร์ของ section นั้น แล้วแก้ path ที่ตารางด้านล่าง **บรรทัดเดียว**
+
+| รูปของ section    | แก้ที่ไฟล์                               | ตัวแปร             |
+| ----------------- | ---------------------------------------- | ------------------ |
+| Hero (หัวเว็บ)    | [`data/images.ts`](data/images.ts)       | `images.hero`      |
+| เกี่ยวกับเรา      | [`data/images.ts`](data/images.ts)       | `images.about`     |
+| พื้นหลัง CTA      | [`data/images.ts`](data/images.ts)       | `images.cta`       |
+| QR Code LINE      | [`data/images.ts`](data/images.ts)       | `images.lineQr`    |
+| การ์ดบริการ 3 ใบ  | [`data/services.ts`](data/services.ts)   | ฟิลด์ `image`      |
+| ผลงาน             | [`data/portfolio.ts`](data/portfolio.ts) | ฟิลด์ `image`      |
+| โลโก้             | [`components/Logo.tsx`](components/Logo.tsx) | (SVG ในโค้ด)   |
+| favicon           | `public/favicon.svg`                     | —                  |
+
+ตัวอย่าง — เปลี่ยนภาพ Hero เป็นรูปถ่ายจริง:
+
+```ts
+// data/images.ts
+hero: {
+  src: "/images/hero/hero-bg.jpg",   // ← เปลี่ยนตรงนี้
+  alt: "ทีมงานวัฒน์จัดให้ พร้อมรถยนต์",
+  width: 1920,                        // ← ใส่ขนาดจริงของรูป
+  height: 760,
+},
+```
+
+**ข้อควรระวัง**
+
+- path ต้องขึ้นต้นด้วย `/` เสมอ
+- `width` / `height` ต้องตรงกับขนาดจริง ไม่งั้นหน้าเว็บจะกระตุกตอนโหลด
+- ภาพ Hero: ฝั่งซ้ายจะถูกทับด้วยข้อความ ควรเลือกรูปที่ตัวแบบอยู่ **ฝั่งขวา**
+- ไฟล์ควรไม่เกิน ~300 KB ต่อรูป เพื่อให้เว็บโหลดเร็ว (แนะนำ `.webp`)
+- ถ้าเพิ่มแท็ก `<Image>` ใหม่เอง ต้องครอบ src ด้วย `asset()` จาก [`lib/asset.ts`](lib/asset.ts)
+
+> ⚠️ รูปที่ให้มาทั้งหมดเป็น **ภาพประกอบตัวอย่าง** ไม่ใช่ภาพถ่ายจริง
+> กรุณาเปลี่ยนเป็นรูปจริงก่อนเผยแพร่
+
+---
+
+## 4. วิธีเพิ่มผลงาน (Portfolio)
+
+แก้ที่ [`data/portfolio.ts`](data/portfolio.ts) ไฟล์เดียว
 
 ```ts
 export const portfolioItems: PortfolioItem[] = [
   // ...ของเดิม
   {
-    id: "p-07",                                   // ต้องไม่ซ้ำกับรายการอื่น
+    id: "p-07",                                   // ห้ามซ้ำกับรายการอื่น
     image: "/images/portfolio/portfolio-07.jpg",  // ขึ้นต้นด้วย / เสมอ
-    imageAlt: "คำอธิบายภาพสำหรับผู้พิการทางสายตา / SEO",
-    category: "จัดไฟแนนซ์",                        // ป้ายมุมซ้ายบน
-    title: "จัดไฟแนนซ์สำเร็จ",                      // ชื่อผลงาน
-    description: "Isuzu D-Max",                   // รายละเอียดสั้น ๆ
-    badge: "สำเร็จแล้ว",                           // ป้ายสีเขียว
-    year: "2026",                                 // ปี (มุมขวาบน)
+    imageAlt: "คำอธิบายภาพ",
+    category: "จัดไฟแนนซ์",                        // ต้องตรงกับ portfolioCategories
+    title: "จัดไฟแนนซ์สำเร็จ",
+    description: "Isuzu D-Max",
+    badge: "สำเร็จแล้ว",
+    date: "ก.ค. 2026",
   },
 ];
 ```
 
-3. บันทึกไฟล์ — Carousel, จุดบอกตำแหน่ง (dots) และ Lightbox
-   จะอัปเดตให้อัตโนมัติ ไม่ต้องแก้โค้ดส่วนอื่น
+**เพิ่มหมวดหมู่ใหม่** — เพิ่มชื่อลงใน `portfolioCategories` ในไฟล์เดียวกัน
+(ตัวแรกคือ “ทั้งหมด” ต้องอยู่ตำแหน่งแรกเสมอ)
 
-> ตัวเลขสถิติใต้หัวข้อผลงาน (เช่น “10+ ปีประสบการณ์”) แก้ได้ที่ตัวแปร
-> `portfolioStats` ในไฟล์เดียวกัน
+```ts
+export const portfolioCategories = ["ทั้งหมด", "จัดไฟแนนซ์", "ติดตามหนี้", "จดทะเบียน EV"] as const;
+```
 
-**แนะนำเรื่องรูป**
-
-- อัตราส่วน 4:3 (เช่น 1000 × 700 px หรือ 1200 × 900 px)
-- ไฟล์ `.jpg` หรือ `.webp` ขนาดไม่เกิน ~300 KB เพื่อให้เว็บโหลดเร็ว
-- รูปในโปรเจกต์ตอนนี้เป็น **ภาพตัวอย่าง (placeholder)** ควรแทนที่ด้วยผลงานจริง
+ปุ่มกรอง / Carousel / จุดบอกตำแหน่ง / Lightbox อัปเดตให้เองทั้งหมด
 
 ---
 
-## 4. วิธีเปลี่ยนข้อมูลบริษัท
+## 5. วิธีเปลี่ยนข้อมูลบริษัท
 
-| ต้องการแก้                                | ไฟล์                                       |
-| ----------------------------------------- | ------------------------------------------ |
-| ชื่อแบรนด์ / tagline / คำอธิบาย / ปี © | [`data/site.ts`](data/site.ts) — `site`    |
-| เบอร์โทร / LINE / เวลาทำการ / QR         | [`data/site.ts`](data/site.ts) — `contact` |
-| ลิงก์ Facebook / YouTube / TikTok         | [`data/site.ts`](data/site.ts) — `social`  |
-| เมนูใน Navbar และ Footer                  | [`data/site.ts`](data/site.ts) — `navLinks` |
-| 4 จุดเด่นใต้ Hero                         | [`data/site.ts`](data/site.ts) — `heroHighlights` |
-| หัวข้อ “เกี่ยวกับเรา”                     | [`data/site.ts`](data/site.ts) — `aboutFeatures` |
-| ขั้นตอนการใช้บริการ                       | [`data/site.ts`](data/site.ts) — `processSteps` |
-| การ์ดบริการ 3 ใบ                          | [`data/services.ts`](data/services.ts)     |
-| ผลงานที่ผ่านมา                            | [`data/portfolio.ts`](data/portfolio.ts)   |
-
-ตัวอย่างการเปลี่ยนเบอร์โทรและ LINE:
+| ต้องการแก้                         | ไฟล์                                     | ตัวแปร             |
+| ---------------------------------- | ---------------------------------------- | ------------------ |
+| ชื่อแบรนด์ / tagline / ปี ©        | [`data/site.ts`](data/site.ts)           | `site`             |
+| เบอร์โทร / LINE / เวลาทำการ        | [`data/site.ts`](data/site.ts)           | `contact`          |
+| ลิงก์ Facebook / YouTube / TikTok  | [`data/site.ts`](data/site.ts)           | `social`           |
+| เมนู Navbar และ Footer             | [`data/site.ts`](data/site.ts)           | `navLinks`         |
+| 4 จุดเด่นใน Hero                   | [`data/site.ts`](data/site.ts)           | `heroHighlights`   |
+| จุดเด่นใน "เกี่ยวกับเรา"           | [`data/site.ts`](data/site.ts)           | `aboutFeatures`    |
+| ขั้นตอนการใช้บริการ                | [`data/site.ts`](data/site.ts)           | `processSteps`     |
+| การ์ดบริการ 3 ใบ                   | [`data/services.ts`](data/services.ts)   | `services`         |
+| ผลงาน                              | [`data/portfolio.ts`](data/portfolio.ts) | `portfolioItems`   |
 
 ```ts
 export const contact = {
@@ -106,92 +156,39 @@ export const contact = {
   phoneHref: "tel:0812345678",    // ลิงก์ตอนกดโทร (ห้ามมีขีด)
   lineId: "@วัฒน์จัดให้",
   lineUrl: "https://line.me/R/ti/p/@your-line-id",  // ลิงก์แอดไลน์จริง
-  // ...
+  hours: "จันทร์ - เสาร์  09:00 - 18:00 น.",
 };
 ```
 
-> ข้อความยาว ๆ ในบางส่วน (เช่น ย่อหน้าของ About หรือหัวข้อ CTA)
-> อยู่ในคอมโพเนนต์ที่ [`components/`](components/) แก้ไขได้โดยตรง
+> ข้อความยาว ๆ บางส่วน (ย่อหน้าใน About, หัวข้อ CTA) อยู่ในไฟล์ที่
+> [`components/`](components/) แก้ไขได้โดยตรง
 
-**อย่าลืม** เปลี่ยน `site.url` ใน `data/site.ts` เป็นโดเมนจริง
-เพื่อให้ Open Graph / SEO ทำงานถูกต้อง เช่น `https://your-name.github.io`
-
----
-
-## 5. วิธีเปลี่ยนรูป
-
-รูปทั้งหมดอยู่ในโฟลเดอร์ `public/images/`
-
-```
-public/images/
-├── hero/hero-main.svg          # ภาพใหญ่ใน Hero
-├── services/service-01..03.svg # ภาพหัวการ์ดบริการ
-├── portfolio/portfolio-01..06.svg
-├── about/about-main.svg        # ภาพในหัวข้อเกี่ยวกับเรา
-├── cta/cta-bg.svg              # ภาพพื้นหลังแถบ CTA
-├── contact/line-qr.svg         # QR Code แอดไลน์
-└── og-image.png                # ภาพตัวอย่างตอนแชร์ลิงก์ (1200×630)
-```
-
-**วิธีเปลี่ยน** — มี 2 แบบ
-
-1. **ใช้ชื่อไฟล์เดิม** วางไฟล์ทับได้เลย (ถ้านามสกุลต่างกัน ต้องแก้ path ในโค้ดด้วย)
-2. **ใช้ชื่อไฟล์ใหม่** วางไฟล์แล้วแก้ path ที่จุดอ้างอิง
-
-| รูป          | แก้ path ที่                                        |
-| ------------ | --------------------------------------------------- |
-| Hero         | `components/Hero.tsx`                               |
-| การ์ดบริการ  | `data/services.ts` (ฟิลด์ `image`)                  |
-| ผลงาน        | `data/portfolio.ts` (ฟิลด์ `image`)                 |
-| เกี่ยวกับเรา | `components/About.tsx`                              |
-| พื้นหลัง CTA | `components/CTA.tsx`                                |
-| QR Code LINE | `data/site.ts` (`contact.lineQr`)                   |
-| OG / favicon | `app/layout.tsx`, `public/favicon.svg`              |
-
-**ข้อควรระวัง**
-
-- path ต้องขึ้นต้นด้วย `/` เสมอ เช่น `/images/portfolio/xxx.jpg`
-- ถ้าเพิ่มแท็ก `<Image>` ใหม่เอง ให้ครอบ src ด้วยฟังก์ชัน `asset()` จาก
-  [`lib/asset.ts`](lib/asset.ts) เช่น `src={asset("/images/xxx.jpg")}`
-  เพื่อให้รูปแสดงถูกต้องตอน deploy ลง subfolder
-  (รูปที่ใส่ผ่าน `data/*.ts` ทำให้อยู่แล้ว ไม่ต้องทำอะไรเพิ่ม)
-- ถ้าเปลี่ยนขนาดรูป ให้แก้ค่า `width` / `height` ในแท็ก `<Image>` ตามจริงด้วย
-  เพื่อไม่ให้หน้าเว็บกระตุก (Layout Shift)
-- ทุกภาพต้องมี `alt` ที่สื่อความหมาย เพื่อ SEO และผู้ใช้ screen reader
+**อย่าลืม** แก้ `site.url` ให้ตรงกับ URL จริง เพื่อให้ SEO และภาพตอนแชร์ลิงก์ถูกต้อง
 
 ---
 
 ## 6. วิธี Deploy ขึ้น GitHub Pages
 
-โปรเจกต์นี้ตั้งค่า `output: "export"` ไว้แล้ว จึงได้ไฟล์ static ล้วนในโฟลเดอร์ `out/`
+โปรเจกต์นี้ผูกกับ repository ชื่อ **`watpage`** ของบัญชี `jakgapank2-bot`
+เว็บจะอยู่ที่ `https://jakgapank2-bot.github.io/watpage/`
 
-### โปรเจกต์นี้ตั้งค่าไว้สำหรับ repository ชื่อ `watpage`
+**อัปเดตเว็บด้วย GitHub Desktop**
 
-เว็บจะอยู่ที่ **`https://<username>.github.io/watpage/`**
-GitHub Actions จะเติม base path `/watpage` ให้อัตโนมัติ — **ไม่ต้องตั้งค่าอะไรเพิ่ม**
+1. แก้ไฟล์ในเครื่อง
+2. เปิด GitHub Desktop → ใส่ข้อความ commit → **Commit to main**
+3. กด **Push origin**
+4. รอ ~2 นาที เว็บจะอัปเดตอัตโนมัติ
 
-**ขั้นตอนด้วย GitHub Desktop**
+**เงื่อนไขที่ต้องมี** (ตั้งครั้งเดียวพอ)
 
-1. เปิด GitHub Desktop → **File → Add local repository** → เลือกโฟลเดอร์นี้
-2. ใส่ข้อความ commit แล้วกด **Commit to main**
-3. กด **Publish repository** → ตั้งชื่อเป็น **`watpage`** → เอาเครื่องหมายถูก
-   *Keep this code private* ออก (GitHub Pages ของบัญชีฟรีต้องเป็น public)
-4. ทำตามหัวข้อ [7. วิธีตั้งค่า GitHub Actions](#7-วิธีตั้งค่า-github-actions) เพื่อเปิด Pages
-5. ครั้งต่อ ๆ ไปแค่ Commit แล้วกด **Push origin** เว็บจะอัปเดตเอง
+- repository ต้องเป็น **public** (บัญชีฟรีใช้ Pages กับ repo private ไม่ได้)
+- **Settings → Pages → Source** ต้องเลือกเป็น **GitHub Actions**
 
-> อย่าลืมแก้ `site.url` ใน `data/site.ts` ให้เป็นชื่อผู้ใช้ GitHub จริงของคุณ
+**ถ้าเปลี่ยนชื่อ repository** — ไม่ต้องแก้โค้ด
+GitHub Actions อ่านชื่อ repo เองจาก `actions/configure-pages`
+แก้เพียง `site.url` ใน `data/site.ts` ให้ตรงกับ URL ใหม่
 
-### ถ้าเปลี่ยนไปใช้ชื่อ repository อื่น
-
-ไม่ต้องแก้โค้ด — Actions อ่านชื่อ repo เองจาก `actions/configure-pages`
-แก้เพียง `site.url` ใน `data/site.ts` ให้ตรงกับ URL จริง
-
-### ถ้าอยากให้เป็นเว็บหลัก `https://username.github.io/` (ไม่มีชื่อ repo ต่อท้าย)
-
-ตั้งชื่อ repository ว่า **`<username>.github.io`** แทน
-base path จะเป็นค่าว่างให้อัตโนมัติ แล้วแก้ `site.url` เป็น `https://<username>.github.io`
-
-### build เองบนเครื่อง (ถ้าต้องการทดสอบ base path)
+**build เองบนเครื่อง** (ถ้าอยากทดสอบ base path)
 
 ```bash
 # Windows (PowerShell)
@@ -201,7 +198,6 @@ $env:NEXT_PUBLIC_BASE_PATH="/watpage"; npm run build
 NEXT_PUBLIC_BASE_PATH=/watpage npm run build
 ```
 
-> ระบบไม่ได้ hardcode ชื่อ GitHub ของใครไว้ ทุกอย่างอ่านจาก environment variable
 > ไฟล์ `public/.nojekyll` มีไว้กัน GitHub Pages ตัดโฟลเดอร์ `_next` ทิ้ง — ห้ามลบ
 
 ---
@@ -212,23 +208,20 @@ NEXT_PUBLIC_BASE_PATH=/watpage npm run build
 เหลือเพียงเปิดใช้งาน Pages ใน repository:
 
 1. push โค้ดขึ้น GitHub (branch `main`)
-2. ไปที่ **Settings → Pages**
-3. ที่หัวข้อ **Build and deployment → Source** เลือก **GitHub Actions**
-4. ไปที่แท็บ **Actions** จะเห็น workflow ชื่อ *Deploy to GitHub Pages* รันอัตโนมัติ
-5. เมื่อขึ้นเครื่องหมายถูกสีเขียว เปิดเว็บได้จากลิงก์ในหน้า **Settings → Pages**
+2. **Settings → Pages → Build and deployment → Source** เลือก **GitHub Actions**
+3. ดูผลที่แท็บ **Actions** — workflow ชื่อ *Deploy to GitHub Pages* จะรันเอง
+4. ขึ้นติ๊กเขียวแล้วเปิดเว็บได้จากลิงก์ในหน้า **Settings → Pages**
 
-หลังจากนี้ทุกครั้งที่ push เข้า `main` เว็บจะอัปเดตให้อัตโนมัติ
-หรือกดรันเองได้จากแท็บ Actions → Deploy to GitHub Pages → **Run workflow**
+| ขั้นตอนใน workflow      | ทำอะไร                                     |
+| ----------------------- | ------------------------------------------ |
+| `configure-pages`       | อ่าน base path ของ Pages อัตโนมัติ         |
+| `npm ci`                | ติดตั้ง dependencies                       |
+| `npm run build`         | สร้างไฟล์ static ลง `out/`                 |
+| `upload-pages-artifact` | อัปโหลดโฟลเดอร์ `out/`                     |
+| `deploy-pages`          | นำขึ้น GitHub Pages                        |
 
-**สิ่งที่ workflow ทำ**
-
-| ขั้นตอน           | รายละเอียด                                            |
-| ----------------- | ----------------------------------------------------- |
-| `configure-pages` | อ่านค่า base path ของ Pages อัตโนมัติ                 |
-| `npm ci`          | ติดตั้ง dependencies ตาม `package-lock.json`          |
-| `npm run build`   | สร้างไฟล์ static ลง `out/` พร้อม base path ที่ถูกต้อง |
-| `upload-pages-artifact` | อัปโหลดโฟลเดอร์ `out/`                          |
-| `deploy-pages`    | นำขึ้น GitHub Pages                                   |
+> ⚠️ อย่ากดปุ่ม **Configure** ที่การ์ด "Next.js" ในหน้า Settings → Pages
+> เพราะจะสร้าง workflow ซ้อนกับของเดิมแล้วตีกัน
 
 ---
 
@@ -237,32 +230,33 @@ NEXT_PUBLIC_BASE_PATH=/watpage npm run build
 ```
 app/
   layout.tsx        # Metadata, SEO, Open Graph, ฟอนต์ไทย
-  page.tsx          # ประกอบทุก section เข้าด้วยกัน + JSON-LD
-  globals.css       # Design system (สี, ฟอนต์, animation)
+  page.tsx          # ประกอบทุก section + JSON-LD
+  globals.css       # Design system (สีน้ำตาล-ทอง, ฟอนต์, animation)
 components/
   Navbar.tsx        # เมนู sticky + hamburger + ไฮไลต์ section
-  Hero.tsx          # หัวเว็บ + 4 จุดเด่น
+  Hero.tsx          # หัวเว็บภาพเต็มจอ + 4 จุดเด่น
   Services.tsx / ServiceCard.tsx
-  Portfolio.tsx / PortfolioCard.tsx   # Carousel + Lightbox
-  About.tsx  Process.tsx  CTA.tsx  Contact.tsx  Footer.tsx
+  Portfolio.tsx / PortfolioCard.tsx   # ปุ่มกรอง + Carousel + Lightbox
+  About.tsx  Process.tsx  CTA.tsx  Footer.tsx
   FloatingContact.tsx  # ปุ่มลอย "ปรึกษาฟรี" บนมือถือ
   Logo.tsx  SectionHeading.tsx  SocialIcons.tsx  Reveal.tsx
 data/
-  site.ts  services.ts  portfolio.ts   # แก้เนื้อหาทั้งหมดที่นี่
-public/images/                          # รูปภาพทั้งหมด
+  site.ts       # ข้อมูลบริษัท / ติดต่อ / เมนู / เนื้อหาสั้น ๆ
+  images.ts     # 📸 รูปทุก section รวมไว้ที่นี่
+  services.ts   # การ์ดบริการ
+  portfolio.ts  # ผลงาน + หมวดหมู่
+lib/asset.ts    # เติม base path ให้ path ของรูป
+public/images/  # ไฟล์รูปจริง
 ```
 
 ## เทคโนโลยีที่ใช้
 
 - **Next.js 16** (App Router, `output: "export"`)
-- **TypeScript**
-- **Tailwind CSS 4**
-- **lucide-react** สำหรับไอคอน
-- ฟอนต์ **Noto Sans Thai** ผ่าน `next/font` (โหลดพร้อมหน้าเว็บ ไม่ต้องพึ่ง CDN)
+- **TypeScript** · **Tailwind CSS 4** · **lucide-react**
+- ฟอนต์ **Noto Sans Thai** ผ่าน `next/font` (โหลดพร้อมหน้าเว็บ ไม่พึ่ง CDN)
 
 ## หมายเหตุ
 
-- ภาพและข้อมูลผลงานในโปรเจกต์นี้เป็น **ตัวอย่างสำหรับเดโม** กรุณาแทนที่ด้วยข้อมูลจริง
-  ก่อนเผยแพร่ และหลีกเลี่ยงการใส่ข้อมูลลูกค้าที่ไม่ได้รับอนุญาต
-- เว็บไซต์นี้ไม่มีระบบสมาชิก ไม่มีฟอร์มที่ส่งข้อมูลเข้าเซิร์ฟเวอร์
-  และไม่เก็บข้อมูลผู้ใช้ใด ๆ
+- ข้อมูลผลงาน เบอร์โทร LINE และรูปภาพทั้งหมดเป็น **ตัวอย่างสำหรับเดโม**
+  กรุณาแทนที่ด้วยข้อมูลจริงก่อนเผยแพร่ และหลีกเลี่ยงการใส่ข้อมูลลูกค้าที่ไม่ได้รับอนุญาต
+- เว็บไซต์นี้ไม่มีระบบสมาชิก ไม่มีฟอร์มที่ส่งข้อมูลเข้าเซิร์ฟเวอร์ และไม่เก็บข้อมูลผู้ใช้ใด ๆ

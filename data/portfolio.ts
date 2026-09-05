@@ -1,13 +1,15 @@
 /**
  * ผลงานที่ผ่านมา (Portfolio)
- * ------------------------------------------------------------------
- * วิธีเพิ่มผลงานใหม่:
- *   1) วางไฟล์รูปไว้ที่ public/images/portfolio/ (เช่น portfolio-07.jpg)
- *   2) เพิ่ม object ใหม่เข้าไปใน array ด้านล่าง
- *   3) ไม่ต้องแก้โค้ดส่วนอื่นเลย ระบบ Carousel / Lightbox จะอัปเดตอัตโนมัติ
+ * ══════════════════════════════════════════════════════════════
+ *  วิธีเพิ่มผลงานใหม่:
+ *    1) วางไฟล์รูปไว้ที่ public/images/portfolio/ (แนะนำ 1000 × 700 px)
+ *    2) เพิ่ม object ใหม่เข้าไปใน array portfolioItems ด้านล่าง
+ *    3) ถ้าใช้ category ใหม่ ให้เพิ่มชื่อลงใน portfolioCategories ด้วย
  *
- * หมายเหตุ: ข้อมูลด้านล่างเป็น "ข้อมูลตัวอย่าง" สำหรับเดโม
- *           กรุณาแทนที่ด้วยผลงานจริงก่อนเผยแพร่
+ *  ไม่ต้องแก้โค้ดส่วนอื่นเลย — Carousel / ปุ่มกรอง / Lightbox อัปเดตเอง
+ *
+ *  หมายเหตุ: ข้อมูลด้านล่างเป็น "ตัวอย่างสำหรับเดโม"
+ *            กรุณาแทนที่ด้วยผลงานจริงก่อนเผยแพร่
  */
 
 export type PortfolioItem = {
@@ -18,8 +20,16 @@ export type PortfolioItem = {
   title: string;
   description: string;
   badge: string;
-  year: string;
+  date: string;
 };
+
+/** ปุ่มกรองหมวดหมู่ — ตัวแรกคือ "ทั้งหมด" (แสดงทุกรายการ) */
+export const portfolioCategories = [
+  "ทั้งหมด",
+  "จัดไฟแนนซ์",
+  "ติดตามหนี้",
+  "จดทะเบียน EV",
+] as const;
 
 export const portfolioItems: PortfolioItem[] = [
   {
@@ -30,17 +40,17 @@ export const portfolioItems: PortfolioItem[] = [
     title: "จัดไฟแนนซ์สำเร็จ",
     description: "Toyota Hilux Revo",
     badge: "สำเร็จแล้ว",
-    year: "2026",
+    date: "ม.ค. 2026",
   },
   {
     id: "p-02",
     image: "/images/portfolio/portfolio-02.svg",
-    imageAlt: "ตัวอย่างผลงานรีไฟแนนซ์รถยนต์เก๋ง",
-    category: "รีไฟแนนซ์",
+    imageAlt: "ตัวอย่างผลงานรีไฟแนนซ์รถยนต์เก๋ง Honda Civic",
+    category: "จัดไฟแนนซ์",
     title: "รีไฟแนนซ์ผ่าน",
-    description: "Toyota / Honda",
+    description: "Honda Civic",
     badge: "สำเร็จแล้ว",
-    year: "2026",
+    date: "ก.พ. 2026",
   },
   {
     id: "p-03",
@@ -50,7 +60,7 @@ export const portfolioItems: PortfolioItem[] = [
     title: "จดทะเบียนรถยนต์ไฟฟ้า",
     description: "BYD ATTO 3",
     badge: "สำเร็จแล้ว",
-    year: "2026",
+    date: "มี.ค. 2026",
   },
   {
     id: "p-04",
@@ -60,7 +70,7 @@ export const portfolioItems: PortfolioItem[] = [
     title: "ติดตามหนี้สำเร็จ",
     description: "ปิดบัญชีได้ตามเป้า",
     badge: "สำเร็จแล้ว",
-    year: "2025",
+    date: "เม.ย. 2026",
   },
   {
     id: "p-05",
@@ -70,7 +80,7 @@ export const portfolioItems: PortfolioItem[] = [
     title: "จัดไฟแนนซ์รถมือสอง",
     description: "รถยนต์มือสอง",
     badge: "สำเร็จแล้ว",
-    year: "2025",
+    date: "พ.ค. 2026",
   },
   {
     id: "p-06",
@@ -80,13 +90,6 @@ export const portfolioItems: PortfolioItem[] = [
     title: "จดทะเบียน EV",
     description: "ดำเนินการครบทุกขั้นตอน",
     badge: "สำเร็จแล้ว",
-    year: "2025",
+    date: "มิ.ย. 2026",
   },
 ];
-
-/** สถิติที่แสดงใต้หัวข้อ Portfolio (แก้ไขตัวเลขได้ตามจริง) */
-export const portfolioStats = [
-  { value: "10+", label: "ปีประสบการณ์" },
-  { value: "ทุกยี่ห้อ", label: "รองรับรถทุกแบรนด์" },
-  { value: "ทั่วประเทศ", label: "พื้นที่ให้บริการ" },
-] as const;

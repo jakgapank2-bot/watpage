@@ -5,19 +5,18 @@ import { services } from "@/data/services";
 
 export default function Services() {
   return (
-    <section id="services" className="scroll-mt-20 bg-brand-50/40 py-20 lg:py-28">
+    <section id="services" className="scroll-mt-16 bg-cream-50 py-16 lg:py-20">
       <div className="container-page">
         <Reveal>
           <SectionHeading
-            eyebrow="Our Services"
             title="บริการของวัฒน์จัดให้"
             subtitle="ครบ จบ ในที่เดียว ตอบโจทย์ทุกความต้องการเรื่องรถยนต์"
           />
         </Reveal>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-7">
+        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service, i) => (
-            <Reveal key={service.id} delay={i * 120} className="h-full">
+            <Reveal key={service.id} delay={i * 110} className="h-full">
               <ServiceCard service={service} />
             </Reveal>
           ))}

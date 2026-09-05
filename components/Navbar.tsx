@@ -23,7 +23,7 @@ export default function Navbar() {
     const sections = navLinks
       .map((l) => document.querySelector(l.href))
       .filter((el): el is Element => Boolean(el));
-    if (!sections.length || typeof IntersectionObserver === "undefined") return;
+    if (!sections.length) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -54,19 +54,19 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-[background-color,box-shadow,border-color] duration-300 ${
+      className={`sticky top-0 z-50 transition-[background-color,box-shadow] duration-300 ${
         scrolled || open
-          ? "border-b border-navy-900/5 bg-white/95 shadow-[0_10px_30px_-18px_rgba(8,28,63,0.45)] backdrop-blur"
-          : "border-b border-transparent bg-white/70 backdrop-blur-sm"
+          ? "bg-white/97 shadow-[0_10px_30px_-20px_rgba(36,20,8,0.5)] backdrop-blur"
+          : "bg-white/90 backdrop-blur-sm"
       }`}
     >
-      <nav className="container-page flex h-18 items-center justify-between py-3" aria-label="เมนูหลัก">
+      <nav className="container-page flex h-16 items-center justify-between" aria-label="เมนูหลัก">
         <a href="#home" className="shrink-0" aria-label={`${site.name} - กลับไปด้านบน`}>
           <Logo />
         </a>
 
         {/* เมนู Desktop */}
-        <ul className="hidden items-center gap-1 lg:flex">
+        <ul className="hidden items-center gap-7 lg:flex">
           {navLinks.map((link) => {
             const isActive = active === link.href;
             return (
@@ -74,15 +74,13 @@ export default function Navbar() {
                 <a
                   href={link.href}
                   aria-current={isActive ? "true" : undefined}
-                  className={`relative rounded-full px-4 py-2 text-[15px] font-semibold transition-colors ${
-                    isActive
-                      ? "text-brand-600"
-                      : "text-navy-900/75 hover:text-brand-600"
+                  className={`relative block py-1.5 text-[15px] font-semibold transition-colors ${
+                    isActive ? "text-brown-700" : "text-brown-900/70 hover:text-brown-700"
                   }`}
                 >
                   {link.label}
                   <span
-                    className={`absolute inset-x-4 -bottom-0.5 h-0.5 rounded-full bg-brand-600 transition-transform duration-300 ${
+                    className={`absolute inset-x-0 -bottom-0.5 h-[3px] rounded-full bg-gold-500 transition-transform duration-300 ${
                       isActive ? "scale-x-100" : "scale-x-0"
                     }`}
                   />
@@ -97,7 +95,7 @@ export default function Navbar() {
             href={contact.lineUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-[15px] font-bold text-white shadow-lg shadow-brand-600/25 transition hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-xl hover:shadow-brand-600/30 sm:inline-flex"
+            className="btn-primary hidden px-6 py-2.5 text-[15px] sm:inline-flex"
           >
             <MessageCircle className="size-[18px]" aria-hidden="true" />
             ปรึกษาฟรี
@@ -109,7 +107,7 @@ export default function Navbar() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? "ปิดเมนู" : "เปิดเมนู"}
-            className="grid size-11 place-items-center rounded-2xl border border-navy-900/10 bg-white text-navy-900 transition hover:border-brand-300 hover:text-brand-600 lg:hidden"
+            className="grid size-11 place-items-center rounded-xl border border-brown-200 bg-white text-brown-800 transition hover:border-gold-400 hover:text-brown-600 lg:hidden"
           >
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
@@ -119,7 +117,7 @@ export default function Navbar() {
       {/* เมนู Mobile */}
       <div
         id="mobile-menu"
-        className={`overflow-hidden border-t border-navy-900/5 bg-white transition-[max-height,opacity] duration-300 lg:hidden ${
+        className={`overflow-hidden border-t border-brown-100 bg-white transition-[max-height,opacity] duration-300 lg:hidden ${
           open ? "max-h-[26rem] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
@@ -129,10 +127,10 @@ export default function Navbar() {
               <a
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className={`block rounded-2xl px-4 py-3.5 text-base font-semibold transition-colors ${
+                className={`block rounded-xl px-4 py-3.5 text-base font-semibold transition-colors ${
                   active === link.href
-                    ? "bg-brand-50 text-brand-700"
-                    : "text-navy-900/80 hover:bg-brand-50 hover:text-brand-700"
+                    ? "bg-brown-50 text-brown-700"
+                    : "text-brown-900/80 hover:bg-brown-50 hover:text-brown-700"
                 }`}
               >
                 {link.label}
@@ -145,7 +143,7 @@ export default function Navbar() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setOpen(false)}
-              className="flex items-center justify-center gap-2 rounded-full bg-brand-600 px-6 py-4 text-base font-bold text-white shadow-lg shadow-brand-600/25"
+              className="btn-primary w-full px-6 py-4 text-base"
             >
               <MessageCircle className="size-5" aria-hidden="true" />
               ปรึกษาฟรี

@@ -1,6 +1,7 @@
 /**
  * ข้อมูลหลักของเว็บไซต์
  * แก้ไขข้อมูลบริษัท / ช่องทางติดต่อ / ลิงก์โซเชียล ได้ที่ไฟล์นี้ไฟล์เดียว
+ * (ส่วนของ "รูปภาพ" อยู่ที่ data/images.ts)
  */
 
 export const site = {
@@ -21,28 +22,25 @@ export const contact = {
   lineUrl: "https://line.me/R/ti/p/@example",
   email: "contact@example.com",
   address: "ให้บริการทั่วประเทศ",
-  hours: [
-    { day: "จันทร์ - เสาร์", time: "09:00 - 18:00 น." },
-    { day: "อาทิตย์", time: "ปิดทำการ" },
-  ],
-  // รูป QR Code สำหรับแอดไลน์ (แทนที่ไฟล์นี้ด้วย QR จริงได้เลย)
-  lineQr: "/images/contact/line-qr.svg",
+  hours: "จันทร์ - เสาร์  09:00 - 18:00 น.",
 } as const;
 
 export const social = [
   { name: "Facebook", url: "https://facebook.com/", icon: "facebook" },
   { name: "YouTube", url: "https://youtube.com/", icon: "youtube" },
   { name: "TikTok", url: "https://tiktok.com/", icon: "tiktok" },
+  { name: "LINE", url: "https://line.me/", icon: "line" },
 ] as const;
 
 export const navLinks = [
   { label: "หน้าแรก", href: "#home" },
   { label: "บริการของเรา", href: "#services" },
-  { label: "ผลงานของเรา", href: "#portfolio" },
+  { label: "ผลงาน", href: "#portfolio" },
   { label: "เกี่ยวกับเรา", href: "#about" },
   { label: "ติดต่อเรา", href: "#contact" },
 ] as const;
 
+/** 4 จุดเด่นที่แสดงอยู่ในภาพ Hero */
 export const heroHighlights = [
   { icon: "shield", title: "เชื่อถือได้", subtitle: "ดูแลครบทุกขั้นตอน" },
   { icon: "users", title: "ทีมงานมืออาชีพ", subtitle: "ประสบการณ์จริง" },
@@ -50,56 +48,20 @@ export const heroHighlights = [
   { icon: "heart", title: "ดูแลต่อเนื่อง", subtitle: "ไม่ทิ้งลูกค้า" },
 ] as const;
 
-export type NavLink = (typeof navLinks)[number];
-
-/** จุดเด่นในหัวข้อ "เกี่ยวกับเรา" */
+/** จุดเด่นในหัวข้อ "เกี่ยวกับเรา" — icon ที่ใช้ได้: users | gear | zap | info */
 export const aboutFeatures = [
-  {
-    icon: "message",
-    title: "ให้คำปรึกษาแบบมืออาชีพ",
-    detail: "วิเคราะห์ความต้องการก่อนเสนอแนวทางที่เหมาะกับคุณจริง ๆ",
-  },
-  {
-    icon: "check",
-    title: "ดูแลทุกขั้นตอน",
-    detail: "ตั้งแต่เตรียมเอกสารจนถึงวันรับรถ ไม่ต้องวิ่งเอง",
-  },
-  {
-    icon: "clock",
-    title: "ประสานงานรวดเร็ว",
-    detail: "ติดต่อง่าย ตอบไว อัปเดตความคืบหน้าเป็นระยะ",
-  },
-  {
-    icon: "info",
-    title: "ให้ข้อมูลตรงไปตรงมา",
-    detail: "แจ้งเงื่อนไขและค่าใช้จ่ายชัดเจน ไม่มีข้อมูลซ่อนเร้น",
-  },
+  { icon: "users", title: "ให้คำปรึกษาแบบมืออาชีพ" },
+  { icon: "gear", title: "ดูแลทุกขั้นตอน" },
+  { icon: "zap", title: "ประสานงานรวดเร็ว" },
+  { icon: "info", title: "ให้ข้อมูลตรงไปตรงมา" },
 ] as const;
 
-/** ขั้นตอนการใช้บริการ (Timeline) */
+/** ขั้นตอนการใช้บริการ — icon ที่ใช้ได้: message | search | settings | check */
 export const processSteps = [
-  {
-    number: "01",
-    icon: "message",
-    title: "ปรึกษา",
-    detail: "พูดคุยความต้องการ",
-  },
-  {
-    number: "02",
-    icon: "search",
-    title: "ตรวจสอบข้อมูล",
-    detail: "ประเมินและแนะนำแนวทาง",
-  },
-  {
-    number: "03",
-    icon: "settings",
-    title: "ดำเนินการ",
-    detail: "ทีมงานประสานงานให้",
-  },
-  {
-    number: "04",
-    icon: "award",
-    title: "สำเร็จ",
-    detail: "ส่งมอบและดูแลต่อเนื่อง",
-  },
+  { number: "01", icon: "message", title: "ปรึกษา", detail: "พูดคุยความต้องการ" },
+  { number: "02", icon: "search", title: "ตรวจสอบข้อมูล", detail: "ประเมินและแนะนำแนวทาง" },
+  { number: "03", icon: "settings", title: "ดำเนินการ", detail: "ทีมงานประสานงานให้" },
+  { number: "04", icon: "check", title: "สำเร็จ", detail: "ส่งมอบและดูแลต่อเนื่อง" },
 ] as const;
+
+export type NavLink = (typeof navLinks)[number];

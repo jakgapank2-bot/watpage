@@ -38,9 +38,9 @@ export default function FloatingContact() {
           </a>
           <a
             href={contact.phoneHref}
-            className="flex items-center gap-2.5 rounded-full bg-white px-5 py-3.5 text-[15px] font-bold text-navy-900 shadow-xl ring-1 ring-navy-900/10"
+            className="flex items-center gap-2.5 rounded-full bg-white px-5 py-3.5 text-[15px] font-bold text-brown-900 shadow-xl ring-1 ring-brown-200"
           >
-            <Phone className="size-5 text-brand-600" aria-hidden="true" />
+            <Phone className="size-5 text-brown-700" aria-hidden="true" />
             {contact.phone}
           </a>
         </div>
@@ -51,7 +51,7 @@ export default function FloatingContact() {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-label={open ? "ปิดช่องทางติดต่อ" : "เปิดช่องทางติดต่อ ปรึกษาฟรี"}
-        className="flex items-center gap-2 rounded-full bg-brand-600 px-6 py-4 text-base font-bold text-white shadow-2xl shadow-brand-600/40 transition active:scale-95"
+        className="btn-primary px-6 py-4 text-base ring-1 ring-gold-500/45"
       >
         {open ? (
           <X className="size-5" aria-hidden="true" />

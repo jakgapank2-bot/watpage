@@ -1,15 +1,16 @@
 import Image from "next/image";
 import { MessageCircle, Phone } from "lucide-react";
 import Reveal from "./Reveal";
-import { contact } from "@/data/site";
 import { asset } from "@/lib/asset";
+import { images } from "@/data/images";
+import { contact } from "@/data/site";
 
 export default function CTA() {
   return (
     <section className="relative isolate overflow-hidden">
-      {/* ภาพพื้นหลัง + ชั้นไล่สีให้ตัวอักษรอ่านง่าย */}
+      {/* ───── ภาพพื้นหลัง (เปลี่ยนได้ที่ data/images.ts → images.cta) ───── */}
       <Image
-        src={asset("/images/cta/cta-bg.svg")}
+        src={asset(images.cta.src)}
         alt=""
         aria-hidden="true"
         fill
@@ -18,27 +19,27 @@ export default function CTA() {
         className="-z-10 object-cover"
       />
       <div
-        className="absolute inset-0 -z-10 bg-linear-to-r from-navy-950/95 via-navy-900/85 to-brand-700/70"
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-brown-950/88 via-brown-950/55 to-brown-900/25"
         aria-hidden="true"
       />
 
-      <div className="container-page py-20 lg:py-24">
+      <div className="container-page py-14 lg:py-16">
         <Reveal>
-          <div className="grid items-center gap-10 lg:grid-cols-[1.4fr_1fr]">
-            <div className="text-center lg:text-start">
-              <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-[2.75rem]">
-                พร้อมให้คำปรึกษา <span className="text-brand-300">ฟรี!</span>
+          <div className="flex flex-col items-center gap-8 text-center lg:flex-row lg:justify-between lg:text-start">
+            <div>
+              <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-[2.35rem]">
+                พร้อมให้คำปรึกษา <span className="text-gold-400">ฟรี!</span>
               </h2>
-              <p className="mt-4 text-lg text-brand-100/85">
+              <p className="mt-2.5 text-base text-brown-200 sm:text-lg">
                 ให้เรื่องรถ เป็นเรื่องง่าย แค่เข้ามาคุยกับเรา
               </p>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
                 <a
                   href={contact.lineUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-500 px-8 py-4 text-base font-bold text-white shadow-xl shadow-navy-950/40 transition hover:-translate-y-0.5 hover:bg-brand-400"
+                  className="btn-primary px-7 py-3.5 text-base ring-1 ring-gold-500/45"
                 >
                   <MessageCircle className="size-5" aria-hidden="true" />
                   ปรึกษาฟรีตอนนี้
@@ -47,40 +48,27 @@ export default function CTA() {
                   href={contact.lineUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#06C755] px-8 py-4 text-base font-bold text-white shadow-xl shadow-navy-950/40 transition hover:-translate-y-0.5 hover:brightness-110"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#06C755] px-7 py-3.5 text-base font-bold text-white shadow-[0_12px_28px_-14px_rgba(0,0,0,0.8)] transition hover:-translate-y-0.5 hover:brightness-110"
                 >
                   <MessageCircle className="size-5" aria-hidden="true" />
                   แอดไลน์
                 </a>
                 <a
                   href={contact.phoneHref}
-                  className="inline-flex items-center justify-center gap-3 rounded-full border-2 border-white/25 bg-white/10 px-8 py-4 text-base font-bold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20"
+                  className="inline-flex items-center justify-center gap-2.5 rounded-full bg-brown-950/80 px-7 py-3.5 text-base font-bold text-white ring-1 ring-white/20 backdrop-blur transition hover:-translate-y-0.5 hover:bg-brown-950"
                 >
-                  <Phone className="size-5" aria-hidden="true" />
-                  <span>
-                    <span className="block text-xs font-medium text-brand-100/80">โทรหาเรา</span>
-                    {contact.phone}
-                  </span>
+                  <Phone className="size-5 text-gold-400" aria-hidden="true" />
+                  {contact.phone}
                 </a>
               </div>
             </div>
 
-            {/* QR Code สำหรับแอดไลน์ */}
-            <div className="mx-auto w-full max-w-[16rem]">
-              <div className="rounded-3xl bg-white/95 p-5 text-center shadow-2xl backdrop-blur">
-                <Image
-                  src={asset(contact.lineQr)}
-                  alt={`QR Code สำหรับเพิ่มเพื่อนทาง LINE ${contact.lineId}`}
-                  width={376}
-                  height={376}
-                  loading="lazy"
-                  sizes="240px"
-                  className="h-auto w-full rounded-2xl"
-                />
-                <p className="mt-3 text-sm font-bold text-navy-900">สแกนแอดไลน์</p>
-                <p className="text-xs text-navy-900/60">ปรึกษาได้ทันที</p>
-              </div>
-            </div>
+            {/* ข้อความลายมือฝั่งขวา */}
+            <p className="script-gold shrink-0 text-2xl leading-snug lg:text-right lg:text-[1.75rem]">
+              “เรื่องรถ...
+              <br />
+              ไว้ใจ วัฒน์จัดให้”
+            </p>
           </div>
         </Reveal>
       </div>

@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { BadgeCheck, Maximize2 } from "lucide-react";
-import type { PortfolioItem } from "@/data/portfolio";
+import { BadgeCheck, CalendarDays, Maximize2 } from "lucide-react";
 import { asset } from "@/lib/asset";
+import type { PortfolioItem } from "@/data/portfolio";
 
 type PortfolioCardProps = {
   item: PortfolioItem;
@@ -15,48 +15,49 @@ export default function PortfolioCard({ item, onOpen }: PortfolioCardProps) {
       type="button"
       onClick={onOpen}
       aria-label={`ดูภาพผลงาน ${item.title} - ${item.description}`}
-      className="group relative block h-full w-full overflow-hidden rounded-3xl bg-navy-800 text-start ring-1 ring-white/10 transition duration-300 hover:-translate-y-1.5 hover:ring-brand-400/60 focus-visible:-translate-y-1.5"
+      className="group block h-full w-full overflow-hidden rounded-2xl bg-white text-start shadow-[0_16px_36px_-24px_rgba(0,0,0,0.8)] ring-1 ring-white/10 transition duration-300 hover:-translate-y-1.5 hover:ring-gold-500/60 focus-visible:-translate-y-1.5"
     >
+      {/* ───── รูปผลงาน (เปลี่ยนได้ที่ data/portfolio.ts) ───── */}
       <div className="relative aspect-4/3 w-full overflow-hidden">
         <Image
           src={asset(item.image)}
           alt={item.imageAlt}
           fill
           loading="lazy"
-          sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 400px"
+          sizes="(max-width: 640px) 82vw, (max-width: 1024px) 46vw, 290px"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div
-          className="absolute inset-0 bg-linear-to-t from-navy-950 via-navy-950/45 to-navy-950/5"
-          aria-hidden="true"
-        />
 
-        {/* หมวดหมู่ + ปี */}
-        <div className="absolute inset-x-4 top-4 flex items-center justify-between gap-2">
-          <span className="rounded-full bg-brand-600/90 px-3 py-1.5 text-xs font-bold text-white backdrop-blur">
-            {item.category}
-          </span>
-          <span className="rounded-full bg-white/15 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur">
-            {item.year}
-          </span>
-        </div>
-
-        {/* ไอคอนขยายภาพ (แสดงตอน hover) */}
-        <span
-          className="absolute top-1/2 left-1/2 grid size-14 -translate-x-1/2 -translate-y-1/2 scale-75 place-items-center rounded-full bg-white/20 text-white opacity-0 backdrop-blur transition duration-300 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100"
-          aria-hidden="true"
-        >
-          <Maximize2 className="size-6" />
+        {/* ป้ายหมวดหมู่มุมซ้ายบน */}
+        <span className="absolute top-3 left-3 rounded-md bg-brown-300 px-2.5 py-1 text-xs font-bold text-brown-900 shadow">
+          {item.category}
         </span>
 
-        {/* ข้อความบนภาพ */}
-        <div className="absolute inset-x-0 bottom-0 p-5">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/90 px-3 py-1 text-xs font-bold text-white">
+        {/* ไอคอนขยายภาพตอน hover */}
+        <span
+          className="absolute inset-0 grid place-items-center bg-brown-950/35 opacity-0 transition duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+          aria-hidden="true"
+        >
+          <span className="grid size-12 place-items-center rounded-full bg-white/25 text-white backdrop-blur">
+            <Maximize2 className="size-5" />
+          </span>
+        </span>
+      </div>
+
+      {/* ───── รายละเอียดใต้ภาพ ───── */}
+      <div className="px-4 pt-3 pb-3.5">
+        <h3 className="text-[15px] font-extrabold text-brown-900">{item.title}</h3>
+        <p className="mt-0.5 text-[13px] text-brown-800/60">{item.description}</p>
+
+        <div className="mt-2.5 flex items-center justify-between gap-2 border-t border-brown-100 pt-2.5">
+          <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-brown-800/60">
+            <CalendarDays className="size-3.5" aria-hidden="true" />
+            {item.date}
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[12px] font-bold text-emerald-700">
             <BadgeCheck className="size-3.5" aria-hidden="true" />
             {item.badge}
           </span>
-          <h3 className="mt-2.5 text-lg font-extrabold text-white lg:text-xl">{item.title}</h3>
-          <p className="text-sm font-medium text-brand-100/85">{item.description}</p>
         </div>
       </div>
     </button>

@@ -1,19 +1,28 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowRight, ChevronLeft, ChevronRight, X } from "lucide-react";
 import PortfolioCard from "./PortfolioCard";
 import Reveal from "./Reveal";
-import SectionHeading from "./SectionHeading";
-import { portfolioItems, portfolioStats } from "@/data/portfolio";
 import { asset } from "@/lib/asset";
+import { portfolioCategories, portfolioItems } from "@/data/portfolio";
 
 export default function Portfolio() {
   const trackRef = useRef<HTMLDivElement>(null);
+  const [filter, setFilter] = useState<string>(portfolioCategories[0]);
   const [index, setIndex] = useState(0);
   const [edges, setEdges] = useState({ start: true, end: false });
   const [lightbox, setLightbox] = useState<number | null>(null);
+
+  /* รายการที่ผ่านตัวกรองหมวดหมู่ */
+  const list = useMemo(
+    () =>
+      filter === portfolioCategories[0]
+        ? portfolioItems
+        : portfolioItems.filter((item) => item.category === filter),
+    [filter],
+  );
 
   /* ---------- Carousel ---------- */
   const syncState = useCallback(() => {
@@ -50,6 +59,13 @@ export default function Portfolio() {
     };
   }, [syncState]);
 
+  /* เปลี่ยนหมวด แล้วเลื่อนรางกลับไปเริ่มต้น */
+  const changeFilter = (category: string) => {
+    setFilter(category);
+    setIndex(0);
+    trackRef.current?.scrollTo({ left: 0 });
+  };
+
   const scrollToCard = (i: number) => {
     const track = trackRef.current;
     if (!track) return;
@@ -61,7 +77,7 @@ export default function Portfolio() {
     const track = trackRef.current;
     if (!track) return;
     const card = track.children[0] as HTMLElement | undefined;
-    const amount = card ? card.offsetWidth + 24 : track.clientWidth * 0.8;
+    const amount = card ? card.offsetWidth + 20 : track.clientWidth * 0.8;
     track.scrollBy({ left: amount * direction, behavior: "smooth" });
   };
 
@@ -70,11 +86,9 @@ export default function Portfolio() {
   const shiftLightbox = useCallback(
     (direction: -1 | 1) =>
       setLightbox((current) =>
-        current === null
-          ? current
-          : (current + direction + portfolioItems.length) % portfolioItems.length,
+        current === null ? current : (current + direction + list.length) % list.length,
       ),
-    [],
+    [list.length],
   );
 
   useEffect(() => {
@@ -95,120 +109,115 @@ export default function Portfolio() {
     };
   }, [lightbox, closeLightbox, shiftLightbox]);
 
-  const current = lightbox === null ? null : portfolioItems[lightbox];
+  const current = lightbox === null ? null : list[lightbox];
 
   return (
-    <section id="portfolio" className="relative scroll-mt-20 overflow-hidden bg-navy-900 py-20 lg:py-28">
-      {/* แสงตกแต่งพื้นหลัง */}
-      <div
-        className="absolute -top-32 right-0 size-[30rem] rounded-full bg-brand-600/25 blur-3xl"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute -bottom-40 -left-24 size-[26rem] rounded-full bg-brand-500/15 blur-3xl"
-        aria-hidden="true"
-      />
-
+    <section
+      id="portfolio"
+      className="relative scroll-mt-16 overflow-hidden bg-gradient-to-br from-brown-900 via-brown-800 to-brown-700 py-16 lg:py-20"
+    >
       <div className="relative container-page">
+        {/* ───── หัวข้อ + ลิงก์ขวา ───── */}
         <Reveal>
-          <SectionHeading
-            onDark
-            eyebrow="Our Portfolio"
-            title="ผลงานที่ผ่านมา"
-            subtitle="ความสำเร็จของลูกค้า คือความภูมิใจของเรา"
-          />
+          <div className="flex flex-col items-center gap-3 lg:flex-row lg:items-end lg:justify-between">
+            <div className="flex-1 text-center lg:text-start">
+              <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-[2.1rem]">
+                ผลงานของเรา
+              </h2>
+              <p className="mt-2 text-[15px] text-brown-200">
+                ตัวอย่างผลงานจริงในแต่ละบริการ ที่เราภูมิใจ
+              </p>
+            </div>
+            <a
+              href="#contact"
+              className="inline-flex shrink-0 items-center gap-1.5 text-[15px] font-semibold text-gold-300 transition hover:text-gold-400"
+            >
+              ดูผลงานทั้งหมด
+              <ArrowRight className="size-4" aria-hidden="true" />
+            </a>
+          </div>
         </Reveal>
 
-        {/* สถิติ */}
-        <Reveal delay={120}>
-          <ul className="mx-auto mt-10 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-5">
-            {portfolioStats.map((stat) => (
-              <li
-                key={stat.label}
-                className="rounded-2xl bg-white/5 px-5 py-4 text-center ring-1 ring-white/10"
+        {/* ───── ปุ่มกรองหมวดหมู่ ───── */}
+        <Reveal delay={100}>
+          <div className="mt-7 flex flex-wrap justify-center gap-2">
+            {portfolioCategories.map((category) => (
+              <button
+                key={category}
+                type="button"
+                onClick={() => changeFilter(category)}
+                aria-pressed={filter === category}
+                className={`rounded-full px-5 py-2 text-sm font-bold transition ${
+                  filter === category
+                    ? "bg-brown-300 text-brown-900 shadow"
+                    : "bg-white/10 text-brown-100 ring-1 ring-white/15 hover:bg-white/20"
+                }`}
               >
-                <p className="text-2xl font-extrabold text-white">{stat.value}</p>
-                <p className="mt-1 text-sm text-brand-100/70">{stat.label}</p>
-              </li>
+                {category}
+              </button>
             ))}
-          </ul>
+          </div>
         </Reveal>
 
-        {/* ปุ่มควบคุม Carousel (Desktop) */}
-        <div className="mt-12 flex items-center justify-between gap-4">
-          <p className="text-sm font-medium text-brand-100/70">
-            เลื่อนดูผลงานทั้งหมด {portfolioItems.length} รายการ
-          </p>
-          <div className="hidden gap-2 sm:flex">
-            <button
-              type="button"
-              onClick={() => step(-1)}
-              disabled={edges.start}
-              aria-label="ผลงานก่อนหน้า"
-              className="grid size-12 place-items-center rounded-full bg-white/10 text-white ring-1 ring-white/15 transition hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:bg-white/10"
-            >
-              <ChevronLeft className="size-5" aria-hidden="true" />
-            </button>
-            <button
-              type="button"
-              onClick={() => step(1)}
-              disabled={edges.end}
-              aria-label="ผลงานถัดไป"
-              className="grid size-12 place-items-center rounded-full bg-white/10 text-white ring-1 ring-white/15 transition hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:bg-white/10"
-            >
-              <ChevronRight className="size-5" aria-hidden="true" />
-            </button>
+        {/* ───── รางเลื่อน + ปุ่มลูกศรสองข้าง ───── */}
+        <div className="relative mt-7">
+          <button
+            type="button"
+            onClick={() => step(-1)}
+            disabled={edges.start}
+            aria-label="ผลงานก่อนหน้า"
+            className="absolute top-1/2 -left-2 z-10 hidden size-10 -translate-y-1/2 place-items-center rounded-full bg-brown-300 text-brown-900 shadow-lg transition hover:bg-gold-400 disabled:cursor-not-allowed disabled:opacity-40 sm:grid lg:-left-4"
+          >
+            <ChevronLeft className="size-5" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            onClick={() => step(1)}
+            disabled={edges.end}
+            aria-label="ผลงานถัดไป"
+            className="absolute top-1/2 -right-2 z-10 hidden size-10 -translate-y-1/2 place-items-center rounded-full bg-brown-300 text-brown-900 shadow-lg transition hover:bg-gold-400 disabled:cursor-not-allowed disabled:opacity-40 sm:grid lg:-right-4"
+          >
+            <ChevronRight className="size-5" aria-hidden="true" />
+          </button>
+
+          <div
+            ref={trackRef}
+            className="no-scrollbar -mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth px-5 pb-2 lg:mx-0 lg:px-0"
+            role="group"
+            aria-label="ผลงานที่ผ่านมา"
+          >
+            {list.map((item, i) => (
+              <div
+                key={item.id}
+                className="w-[78%] shrink-0 snap-start sm:w-[46%] lg:w-[calc((100%-3.75rem)/4)]"
+              >
+                <PortfolioCard item={item} onOpen={() => setLightbox(i)} />
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* รางเลื่อนผลงาน */}
-        <div
-          ref={trackRef}
-          className="no-scrollbar -mx-5 mt-5 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth px-5 pt-2 pb-4 lg:-mx-8 lg:px-8"
-          role="group"
-          aria-label="ผลงานที่ผ่านมา"
-        >
-          {portfolioItems.map((item, i) => (
-            <div
-              key={item.id}
-              className="w-[82%] shrink-0 snap-start sm:w-[54%] lg:w-[calc((100%-3rem)/3)]"
-            >
-              <PortfolioCard item={item} onOpen={() => setLightbox(i)} />
-            </div>
-          ))}
-        </div>
-
-        {/* จุดบอกตำแหน่ง */}
-        <div className="mt-7 flex items-center justify-center gap-2.5">
-          {portfolioItems.map((item, i) => (
+        {/* ───── จุดบอกตำแหน่ง ───── */}
+        <div className="mt-6 flex items-center justify-center gap-2">
+          {list.map((item, i) => (
             <button
               key={item.id}
               type="button"
               onClick={() => scrollToCard(i)}
               aria-label={`ไปยังผลงานที่ ${i + 1}`}
               aria-current={index === i ? "true" : undefined}
-              className={`h-2.5 rounded-full transition-all duration-300 ${
-                index === i ? "w-8 bg-brand-400" : "w-2.5 bg-white/25 hover:bg-white/50"
+              className={`h-2 rounded-full transition-all duration-300 ${
+                index === i ? "w-6 bg-gold-400" : "w-2 bg-white/30 hover:bg-white/55"
               }`}
             />
           ))}
         </div>
-
-        <div className="mt-12 text-center">
-          <a
-            href="#contact"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-bold text-navy-900 shadow-xl transition hover:-translate-y-0.5 hover:bg-brand-50"
-          >
-            อยากให้ผลงานชิ้นต่อไปเป็นของคุณ
-            <ArrowRight className="size-5" aria-hidden="true" />
-          </a>
-        </div>
       </div>
 
-      {/* ---------- Lightbox ---------- */}
+      {/* ───── Lightbox ───── */}
       {current && (
         <div
-          className="fixed inset-0 z-100 flex items-center justify-center bg-navy-950/92 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-100 flex items-center justify-center bg-brown-950/93 p-4 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-label={`ภาพผลงาน ${current.title}`}
@@ -248,24 +257,21 @@ export default function Portfolio() {
             <ChevronRight className="size-6" aria-hidden="true" />
           </button>
 
-          <figure
-            className="w-full max-w-4xl animate-fade-in"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <figure className="w-full max-w-4xl animate-fade-in" onClick={(e) => e.stopPropagation()}>
             <Image
               src={asset(current.image)}
               alt={current.imageAlt}
               width={1000}
               height={700}
               sizes="(max-width: 1024px) 92vw, 900px"
-              className="h-auto w-full rounded-2xl shadow-2xl"
+              className="h-auto w-full rounded-xl shadow-2xl"
             />
             <figcaption className="mt-4 text-center">
-              <p className="text-sm font-semibold text-brand-300">
-                {current.category} · {current.year}
+              <p className="text-sm font-semibold text-gold-400">
+                {current.category} · {current.date}
               </p>
               <p className="mt-1 text-xl font-extrabold text-white">{current.title}</p>
-              <p className="text-sm text-brand-100/70">{current.description}</p>
+              <p className="text-sm text-brown-200">{current.description}</p>
             </figcaption>
           </figure>
         </div>
