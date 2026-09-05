@@ -34,7 +34,7 @@ export const portfolioCategories = [
 export const portfolioItems: PortfolioItem[] = [
   {
     id: "p-01",
-    image: "/images/portfolio/portfolio-01.svg",
+    image: "/images/portfolio/portfolio-01.png",
     imageAlt: "ตัวอย่างผลงานจัดไฟแนนซ์รถกระบะ Toyota Hilux Revo",
     category: "จัดไฟแนนซ์",
     title: "จัดไฟแนนซ์สำเร็จ",
@@ -44,7 +44,7 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     id: "p-02",
-    image: "/images/portfolio/portfolio-02.svg",
+    image: "/images/portfolio/portfolio-02.png",
     imageAlt: "ตัวอย่างผลงานรีไฟแนนซ์รถยนต์เก๋ง Honda Civic",
     category: "จัดไฟแนนซ์",
     title: "รีไฟแนนซ์ผ่าน",
@@ -54,7 +54,7 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     id: "p-03",
-    image: "/images/portfolio/portfolio-03.svg",
+    image: "/images/portfolio/portfolio-03.png",
     imageAlt: "ตัวอย่างผลงานจดทะเบียนรถยนต์ไฟฟ้า BYD ATTO 3",
     category: "จดทะเบียน EV",
     title: "จดทะเบียนรถยนต์ไฟฟ้า",
@@ -64,7 +64,7 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     id: "p-04",
-    image: "/images/portfolio/portfolio-04.svg",
+    image: "/images/portfolio/portfolio-04.png",
     imageAlt: "ตัวอย่างผลงานติดตามหนี้และปิดบัญชีได้ตามเป้า",
     category: "ติดตามหนี้",
     title: "ติดตามหนี้สำเร็จ",
@@ -74,7 +74,7 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     id: "p-05",
-    image: "/images/portfolio/portfolio-05.svg",
+    image: "/images/portfolio/portfolio-05.png",
     imageAlt: "ตัวอย่างผลงานจัดไฟแนนซ์รถยนต์มือสอง",
     category: "จัดไฟแนนซ์",
     title: "จัดไฟแนนซ์รถมือสอง",
@@ -84,7 +84,7 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     id: "p-06",
-    image: "/images/portfolio/portfolio-06.svg",
+    image: "/images/portfolio/portfolio-06.png",
     imageAlt: "ตัวอย่างผลงานจดทะเบียน EV ครบทุกขั้นตอน",
     category: "จดทะเบียน EV",
     title: "จดทะเบียน EV",

@@ -30,21 +30,21 @@ export type ImageSlot = {
 
 export const images = {
   /* ───────────── 1. HERO — ภาพพื้นหลังหัวเว็บ (เต็มความกว้าง) ─────────────
-     แนะนำ: แนวนอนยาว ๆ 1920 × 760 px ขึ้นไป (.jpg / .webp)
+     แนะนำ: แนวนอนยาว ๆ 1983 × 793 px (.png / .jpg / .webp)
      เนื้อหาที่เหมาะ: รถ + ทีมงาน + ถนน/เมือง
      หมายเหตุ: ฝั่งซ้ายของภาพจะถูกทับด้วยข้อความ ควรเลือกภาพที่ตัวแบบอยู่ฝั่งขวา */
   hero: {
-    src: "/images/hero/hero-bg.svg",
-    alt: "ทีมงานวัฒน์จัดให้ พร้อมรถยนต์ บนถนนในเมือง",
-    width: 1920,
-    height: 760,
+    src: "/images/hero/hero-bg.png",
+    alt: "วัฒน์จัดให้ มากกว่าบริการ คือคู่คิด — เรื่องรถ เรื่องเงิน ให้เป็นเรื่องง่าย สินเชื่อรถยนต์ ผ่อนง่าย อนุมัติไว",
+    width: 1983,
+    height: 793,
   } satisfies ImageSlot,
 
   /* ───────────── 2. ABOUT — ภาพในหัวข้อ "เกี่ยวกับเรา" ─────────────
      แนะนำ: 900 × 620 px (แนวนอน)
      เนื้อหาที่เหมาะ: หน้าร้าน / โชว์รูม / ทีมงาน */
   about: {
-    src: "/images/about/about-main.svg",
+    src: "/images/about/about-main.png",
     alt: "สำนักงานและทีมงานของวัฒน์จัดให้",
     width: 900,
     height: 620,
@@ -54,7 +54,7 @@ export const images = {
      แนะนำ: 1600 × 440 px (แนวนอน)
      เนื้อหาที่เหมาะ: ถนน / รถวิ่ง (ภาพจะถูกคลุมด้วยสีน้ำตาลเข้ม) */
   cta: {
-    src: "/images/cta/cta-bg.svg",
+    src: "/images/cta/cta-bg.png",
     alt: "",
     width: 1600,
     height: 440,
@@ -64,7 +64,7 @@ export const images = {
      แนะนำ: รูปสี่เหลี่ยมจัตุรัส 376 × 376 px ขึ้นไป
      วิธีได้ QR จริง: LINE OA Manager → เมนู "เพิ่มเพื่อน" → ดาวน์โหลด QR */
   lineQr: {
-    src: "/images/contact/line-qr.svg",
+    src: "/images/contact/line-qr.png",
     alt: "QR Code สำหรับเพิ่มเพื่อนทาง LINE",
     width: 376,
     height: 376,

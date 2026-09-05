@@ -11,117 +11,77 @@ const icons = {
   heart: Heart,
 } as const;
 
+/**
+ * Hero — ใช้ไฟล์ภาพแบนเนอร์ที่มีข้อความฝังมาในรูปแล้ว
+ * จึงไม่วางข้อความ HTML ทับ (จะซ้อนกันจนอ่านไม่ออก)
+ *
+ * • หัวข้อจริงยังมีอยู่ในรูปแบบ sr-only เพื่อ SEO และ screen reader
+ * • ปุ่ม CTA อยู่ในแถบใต้ภาพ เพราะในภาพไม่มีปุ่มให้กด
+ * • 4 จุดเด่นแสดงซ้ำเป็น HTML เฉพาะจอเล็ก เพราะตัวอักษรในภาพจะเล็กเกินอ่าน
+ *
+ * ถ้าเปลี่ยนไปใช้ภาพที่ "ไม่มีตัวหนังสือ" ให้ย้ายข้อความกลับมาทับบนภาพได้
+ */
 export default function Hero() {
   return (
-    <section id="home" className="relative isolate scroll-mt-16 overflow-hidden">
-      {/* ───── ภาพพื้นหลัง (เปลี่ยนได้ที่ data/images.ts → images.hero) ───── */}
+    <section id="home" className="scroll-mt-16 bg-brown-950">
+      {/* หัวข้อสำหรับ SEO / screen reader (ข้อความจริงอยู่ในภาพ) */}
+      <h1 className="sr-only">
+        {site.name} มากกว่าบริการ คือ “คู่คิด” — {site.tagline}
+      </h1>
+
+      {/* ───── ภาพแบนเนอร์ (เปลี่ยนได้ที่ data/images.ts → images.hero) ───── */}
       <Image
         src={asset(images.hero.src)}
         alt={images.hero.alt}
-        fill
+        width={images.hero.width}
+        height={images.hero.height}
         priority
         sizes="100vw"
-        className="-z-10 object-cover object-center"
-      />
-      {/* ชั้นไล่สีให้ตัวอักษรฝั่งซ้ายอ่านง่าย */}
-      <div
-        className="absolute inset-0 -z-10 bg-gradient-to-r from-brown-950/90 via-brown-950/28 to-transparent"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute inset-0 -z-10 bg-gradient-to-t from-brown-950/40 via-transparent to-brown-950/8"
-        aria-hidden="true"
+        /* จอเล็ก: ครอปแถบ 4 จุดเด่นด้านล่างของภาพออก (แสดงเป็น HTML แทน) */
+        className="aspect-[1983/645] w-full object-cover object-top lg:aspect-auto lg:h-auto lg:object-fill"
       />
 
-      <div className="container-page">
-        <div className="flex min-h-[560px] flex-col justify-center pt-12 pb-8 lg:min-h-[600px] lg:pt-16">
-          <div className="max-w-2xl animate-fade-up text-center lg:text-start">
-            <h1 className="text-4xl leading-[1.15] font-extrabold tracking-tight text-white drop-shadow-[0_3px_12px_rgba(36,20,8,0.6)] sm:text-5xl lg:text-[3.5rem] lg:leading-[1.1]">
-              {site.name}
-              <span className="mt-1.5 block">
-                มากกว่าบริการ คือ{" "}
-                <span className="whitespace-nowrap text-gold-400">“คู่คิด”</span>
-              </span>
-            </h1>
-
-            <p className="mt-4 text-xl font-bold text-cream-100 drop-shadow-md sm:text-2xl">
-              {site.tagline}
-            </p>
-
-            <p className="mt-2.5 text-base font-medium text-brown-200 sm:text-lg">
-              สินเชื่อรถยนต์ <span className="mx-1.5 text-gold-400">|</span> ผ่อนง่าย{" "}
-              <span className="mx-1.5 text-gold-400">|</span> อนุมัติไว
-            </p>
-
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
-              <a
-                href={contact.lineUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary px-8 py-3.5 text-base ring-1 ring-gold-500/45"
-              >
-                <MessageCircle className="size-5" aria-hidden="true" />
-                ปรึกษาฟรี
-              </a>
-              <a
-                href="#portfolio"
-                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-cream-100/85 bg-white/10 px-8 py-3.5 text-base font-bold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white hover:text-brown-800"
-              >
-                ดูผลงานของเรา
-                <ArrowRight className="size-5" aria-hidden="true" />
-              </a>
-            </div>
-          </div>
-
-          {/* ───── ข้อความลายมือมุมขวาบน (ซ่อนบนจอเล็ก) ───── */}
-          <p
-            className="script-gold pointer-events-none absolute top-16 right-10 hidden max-w-[16rem] text-right text-2xl leading-snug xl:block"
-            aria-hidden="true"
+      {/* ───── แถบปุ่มใต้ภาพ ───── */}
+      <div className="bg-gradient-to-r from-brown-950 via-brown-900 to-brown-800">
+        <div className="container-page flex flex-col items-center gap-4 py-5 sm:flex-row sm:justify-center">
+          <a
+            href={contact.lineUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary w-full px-8 py-3.5 text-base ring-1 ring-gold-500/45 sm:w-auto"
           >
-            “ทุกเส้นทาง...
-            <br />
-            เราพร้อมจัดให้”
-          </p>
-
-          {/* ───── แถบคำโปรยแนวตั้งฝั่งขวา ───── */}
-          <p
-            className="pointer-events-none absolute right-9 bottom-32 hidden text-right text-xs font-bold tracking-[0.3em] text-gold-300/90 uppercase xl:block"
-            aria-hidden="true"
+            <MessageCircle className="size-5" aria-hidden="true" />
+            ปรึกษาฟรี
+          </a>
+          <a
+            href="#portfolio"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-cream-100/85 bg-white/10 px-8 py-3.5 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-white hover:text-brown-800 sm:w-auto"
           >
-            Teamwork
-            <br />
-            Trust
-            <br />
-            Finance Solution
-          </p>
-
-          {/* ───── 4 จุดเด่น (อยู่ในภาพ) ───── */}
-          <ul className="mt-12 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2 lg:mt-14 lg:grid-cols-4">
-            {heroHighlights.map((item, i) => {
-              const Icon = icons[item.icon];
-              return (
-                <li
-                  key={item.title}
-                  className="flex animate-fade-up items-center gap-3"
-                  style={{ animationDelay: `${180 + i * 90}ms` }}
-                >
-                  <span
-                    className="grid size-11 shrink-0 place-items-center rounded-full bg-brown-950/70 text-gold-400 ring-1 ring-gold-500/40 backdrop-blur"
-                    aria-hidden="true"
-                  >
-                    <Icon className="size-5" />
-                  </span>
-                  <span>
-                    <span className="block text-[15px] font-bold text-white drop-shadow">
-                      {item.title}
-                    </span>
-                    <span className="block text-[13px] text-brown-200">{item.subtitle}</span>
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
+            ดูผลงานของเรา
+            <ArrowRight className="size-5" aria-hidden="true" />
+          </a>
         </div>
+
+        {/* 4 จุดเด่น — เฉพาะจอเล็ก (บนจอใหญ่อ่านได้จากในภาพแล้ว) */}
+        <ul className="container-page grid grid-cols-1 gap-3 pb-6 sm:grid-cols-2 lg:hidden">
+          {heroHighlights.map((item) => {
+            const Icon = icons[item.icon];
+            return (
+              <li key={item.title} className="flex items-center gap-3">
+                <span
+                  className="grid size-10 shrink-0 place-items-center rounded-full bg-brown-800 text-gold-400 ring-1 ring-gold-500/40"
+                  aria-hidden="true"
+                >
+                  <Icon className="size-5" />
+                </span>
+                <span>
+                  <span className="block text-[15px] font-bold text-white">{item.title}</span>
+                  <span className="block text-[13px] text-brown-200">{item.subtitle}</span>
+                </span>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );
