@@ -136,6 +136,15 @@ function selectField(obj, key, labelText, options) {
   return el("div", {}, el("label", {}, labelText), sel);
 }
 
+/* ช่องติ๊กถูก ผูกกับ object */
+function checkbox(obj, key, labelText) {
+  const box = el("input", { type: "checkbox", checked: Boolean(obj[key]) });
+  box.addEventListener("change", () => { obj[key] = box.checked; markDirty(); });
+  return el("label", {
+    style: "font-weight:400;display:flex;gap:8px;align-items:center;margin:14px 0 0",
+  }, box, labelText);
+}
+
 /* ═══════════════ ช่องอัปโหลดรูป (แปลง WebP อัตโนมัติ) ═══════════════ */
 function imageField(obj, pathKey, { slot, name, label = "รูปภาพ", hint = "", withDims = false }) {
   const prev = el("div", { className: "img-prev" });
@@ -237,6 +246,34 @@ function renderSite() {
         field(s, "copyrightYear", "ปีลิขสิทธิ์"),
         field(s, "url", "URL ของเว็บ", { sub: "ใช้กับ SEO / ตอนแชร์ลิงก์" })),
       field(s, "description", "คำอธิบายเว็บไซต์ (SEO)", { area: true })),
+
+    el("div", { className: "card" },
+      el("h2", {}, "โลโก้"),
+      el("p", { className: "desc" },
+        "แสดงมุมซ้ายบนของเว็บและในแถบท้ายเว็บ · แนะนำไฟล์ PNG พื้นหลังโปร่ง สูงอย่างน้อย 200 px · " +
+        "ถ้าไม่อัปโหลด เว็บจะใช้ตราวงกลมที่วาดไว้ในโค้ด"),
+
+      imageField(state.images.logo, "src",
+        { slot: "logo", name: "logo", label: "โลโก้หลัก (ใช้บนพื้นหลังสว่าง)", withDims: true }),
+      el("div", { style: "margin-top:12px" }, field(state.images.logo, "alt", "คำอธิบายภาพ (alt)")),
+
+      el("div", { style: "margin-top:20px" },
+        imageField(state.images.logoDark, "src",
+          { slot: "logo", name: "logo-dark", label: "โลโก้สำหรับพื้นหลังเข้ม (ไม่ใส่ก็ได้)",
+            hint: "ถ้าโลโก้หลักเป็นสีเข้มจนจมกับแถบท้ายเว็บ ให้อัปโหลดเวอร์ชันสีอ่อนตรงนี้", withDims: true })),
+
+      checkbox(state.images, "logoHasText",
+        "ไฟล์โลโก้มีชื่อ “วัฒน์จัดให้” อยู่ในรูปแล้ว (เว็บจะไม่แสดงชื่อซ้ำข้าง ๆ)"),
+
+      el("button", {
+        className: "btn btn-plain btn-sm", style: "margin-top:12px",
+        onclick: () => {
+          if (!confirm("เอาไฟล์โลโก้ออก แล้วกลับไปใช้ตราที่วาดในโค้ด?")) return;
+          state.images.logo.src = "";
+          state.images.logoDark.src = "";
+          markDirty(); render();
+        },
+      }, "↺ กลับไปใช้ตราเดิมที่วาดในโค้ด")),
 
     el("div", { className: "card" },
       el("h2", {}, "ช่องทางติดต่อ"),

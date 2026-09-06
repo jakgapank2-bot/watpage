@@ -35,6 +35,7 @@ const SLOTS = {
   about: { dir: "about", maxWidth: 1200 },
   cta: { dir: "cta", maxWidth: 1800 },
   lineQr: { dir: "contact", maxWidth: 600 },
+  logo: { dir: "logo", maxWidth: 600 },
   services: { dir: "services", maxWidth: 1000 },
   portfolio: { dir: "portfolio", maxWidth: 1400 },
 };
@@ -94,6 +95,27 @@ async function getContent(res) {
   json(res, 200, out);
 }
 
+const isPlainObject = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
+
+/**
+ * รวมข้อมูลเก่ากับใหม่
+ * - array → แทนที่ทั้งก้อน (เพิ่ม/ลบ/สลับลำดับรายการจึงทำงานปกติ)
+ * - object → รวมทีละคีย์ คีย์ที่ฝั่งหน้าเว็บไม่ได้ส่งมาจะคงของเดิมไว้
+ *
+ * ป้องกันกรณีเปิดหน้าหลังบ้านค้างไว้นาน แล้วมีการเพิ่มฟิลด์ใหม่เข้ามาทีหลัง
+ * ถ้ากดบันทึกจากแท็บเก่าจะได้ไม่ลบฟิลด์ใหม่ทิ้ง
+ */
+function mergeContent(base, incoming) {
+  if (!isPlainObject(base) || !isPlainObject(incoming)) return incoming;
+  const out = { ...base };
+  for (const [key, value] of Object.entries(incoming)) {
+    out[key] = isPlainObject(value) && isPlainObject(base[key])
+      ? mergeContent(base[key], value)
+      : value;
+  }
+  return out;
+}
+
 /** POST /api/content — บันทึกเนื้อหา (สำรองไฟล์เดิมไว้ก่อน) */
 async function saveContent(req, res) {
   const body = JSON.parse((await readBody(req)).toString("utf8"));
@@ -105,10 +127,15 @@ async function saveContent(req, res) {
   for (const name of FILES) {
     if (!body[name]) continue;
     const file = path.join(CONTENT, `${name}.json`);
+
+    let merged = body[name];
     if (existsSync(file)) {
-      await writeFile(path.join(backupDir, `${name}.${stamp}.json`), await readFile(file));
+      const current = await readFile(file, "utf8");
+      await writeFile(path.join(backupDir, `${name}.${stamp}.json`), current);
+      merged = mergeContent(JSON.parse(current), body[name]);
     }
-    await writeFile(file, JSON.stringify(body[name], null, 2) + "\n", "utf8");
+
+    await writeFile(file, JSON.stringify(merged, null, 2) + "\n", "utf8");
     saved.push(name);
   }
   json(res, 200, { ok: true, saved });

@@ -22,5 +22,18 @@
     "alt": "QR Code สำหรับเพิ่มเพื่อนทาง LINE",
     "width": 376,
     "height": 376
-  }
+  },
+  "logo": {
+    "src": "",
+    "alt": "โลโก้ วัฒน์จัดให้",
+    "width": 0,
+    "height": 0
+  },
+  "logoDark": {
+    "src": "",
+    "alt": "โลโก้ วัฒน์จัดให้ (สำหรับพื้นหลังเข้ม)",
+    "width": 0,
+    "height": 0
+  },
+  "logoHasText": false
 }
