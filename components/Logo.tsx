@@ -25,6 +25,18 @@ export default function Logo({ onDark = false, className = "" }: LogoProps) {
   const picked = onDark && images.logoDark.src ? images.logoDark : images.logo;
   const hasFile = Boolean(picked.src);
 
+  /**
+   * โลโก้แนวตั้ง (สูงกว่ากว้าง) ต้องการความสูงมากกว่าถึงจะอ่านออก
+   * จึงแยกขนาดตามสัดส่วนของไฟล์ ไม่บังคับความสูงเดียวกันทั้งหมด
+   */
+  const ratio = picked.width && picked.height ? picked.width / picked.height : 3;
+  const sizeClass =
+    ratio >= 1.6
+      ? "h-11 max-w-[13rem]" // โลโก้แนวนอน (มีชื่อแบรนด์ต่อท้าย)
+      : ratio >= 0.95
+        ? "h-13 max-w-[8rem]" // โลโก้ทรงจัตุรัส
+        : "h-16 max-w-[7rem]"; // โลโก้แนวตั้ง
+
   return (
     <span className={`flex items-center gap-2.5 ${className}`.trim()}>
       {hasFile ? (
@@ -34,8 +46,8 @@ export default function Logo({ onDark = false, className = "" }: LogoProps) {
           width={picked.width || 160}
           height={picked.height || 44}
           priority
-          sizes="180px"
-          className="h-11 w-auto shrink-0 object-contain"
+          sizes="220px"
+          className={`w-auto shrink-0 object-contain ${sizeClass}`}
         />
       ) : (
         <svg viewBox="0 0 64 64" className="size-11 shrink-0" aria-hidden="true">

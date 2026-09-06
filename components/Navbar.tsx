@@ -60,7 +60,7 @@ export default function Navbar() {
           : "bg-white/90 backdrop-blur-sm"
       }`}
     >
-      <nav className="container-page flex h-16 items-center justify-between" aria-label="เมนูหลัก">
+      <nav className="container-page flex min-h-16 items-center justify-between gap-3 py-1.5" aria-label="เมนูหลัก">
         <a href="#home" className="shrink-0" aria-label={`${site.name} - กลับไปด้านบน`}>
           <Logo />
         </a>

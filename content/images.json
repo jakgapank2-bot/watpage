@@ -24,10 +24,10 @@
     "height": 360
   },
   "logo": {
-    "src": "/images/logo/logo.webp",
+    "src": "/images/logo/logo-mark.webp",
     "alt": "โลโก้ วัฒน์จัดให้",
-    "width": 429,
-    "height": 581
+    "width": 354,
+    "height": 399
   },
   "logoDark": {
     "src": "",
