@@ -8,7 +8,7 @@
   "items": [
     {
       "id": "p-01",
-      "image": "/images/portfolio/portfolio-01.webp",
+      "image": "/images/portfolio/p-01.webp",
       "imageAlt": "ตัวอย่างผลงานจัดไฟแนนซ์รถกระบะ Toyota Hilux Revo",
       "category": "จัดไฟแนนซ์",
       "title": "จัดไฟแนนซ์สำเร็จ",
@@ -18,7 +18,7 @@
     },
     {
       "id": "p-02",
-      "image": "/images/portfolio/portfolio-02.webp",
+      "image": "/images/portfolio/p-02.webp",
       "imageAlt": "ตัวอย่างผลงานรีไฟแนนซ์รถยนต์เก๋ง Honda Civic",
       "category": "จัดไฟแนนซ์",
       "title": "รีไฟแนนซ์ผ่าน",
@@ -28,7 +28,7 @@
     },
     {
       "id": "p-03",
-      "image": "/images/portfolio/portfolio-03.webp",
+      "image": "/images/portfolio/p-03.webp",
       "imageAlt": "ตัวอย่างผลงานจดทะเบียนรถยนต์ไฟฟ้า BYD ATTO 3",
       "category": "จดทะเบียน EV",
       "title": "จดทะเบียนรถยนต์ไฟฟ้า",
@@ -38,7 +38,7 @@
     },
     {
       "id": "p-04",
-      "image": "/images/portfolio/portfolio-04.webp",
+      "image": "/images/portfolio/p-04.webp",
       "imageAlt": "ตัวอย่างผลงานติดตามหนี้และปิดบัญชีได้ตามเป้า",
       "category": "ติดตามหนี้",
       "title": "ติดตามหนี้สำเร็จ",
@@ -48,7 +48,7 @@
     },
     {
       "id": "p-05",
-      "image": "/images/portfolio/portfolio-05.webp",
+      "image": "/images/portfolio/p-05.webp",
       "imageAlt": "ตัวอย่างผลงานจัดไฟแนนซ์รถยนต์มือสอง",
       "category": "จัดไฟแนนซ์",
       "title": "จัดไฟแนนซ์รถมือสอง",
@@ -58,7 +58,7 @@
     },
     {
       "id": "p-06",
-      "image": "/images/portfolio/portfolio-06.webp",
+      "image": "/images/portfolio/p-06.webp",
       "imageAlt": "ตัวอย่างผลงานจดทะเบียน EV ครบทุกขั้นตอน",
       "category": "จดทะเบียน EV",
       "title": "จดทะเบียน EV",
