@@ -356,7 +356,7 @@ function renderServices(rerender) {
             el("strong", {}, `${it.number} · ${it.title}`),
             itemControls(list, i, rerender)),
           el("div", { className: "grid two" },
-            field(it, "number", "เลขลำดับ"),
+            field(it, "number", "เลขลำดับ", { sub: "ใช้ตั้งชื่อไฟล์รูปเท่านั้น ไม่แสดงบนเว็บ" }),
             field(it, "title", "ชื่อบริการ"),
             selectField(it, "icon", "ไอคอน", ["car", "file", "bolt"])),
           el("div", { style: "margin:12px 0" }, field(it, "description", "รายละเอียด", { area: true })),

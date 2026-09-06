@@ -25,14 +25,6 @@ export default function ServiceCard({ service }: { service: Service }) {
           sizes="(max-width: 768px) 92vw, (max-width: 1280px) 45vw, 380px"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
-
-        {/* เลขลำดับมุมซ้ายบน */}
-        <span
-          className="absolute top-4 left-4 grid size-12 place-items-center rounded-full bg-brown-800/90 text-lg font-extrabold text-gold-400 ring-2 ring-gold-500/50 backdrop-blur"
-          aria-hidden="true"
-        >
-          {service.number}
-        </span>
       </div>
 
       <div className="relative flex flex-1 flex-col px-6 pt-9 pb-6">

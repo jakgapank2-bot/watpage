@@ -8,8 +8,8 @@
   "about": {
     "src": "/images/about/about-main.webp",
     "alt": "สำนักงานและทีมงานของวัฒน์จัดให้",
-    "width": 900,
-    "height": 620
+    "width": 1200,
+    "height": 900
   },
   "cta": {
     "src": "/images/cta/cta-bg.webp",
