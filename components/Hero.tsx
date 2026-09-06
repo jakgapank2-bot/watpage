@@ -17,7 +17,8 @@ const icons = {
  *
  * • หัวข้อจริงยังมีอยู่ในรูปแบบ sr-only เพื่อ SEO และ screen reader
  * • ปุ่ม CTA อยู่ในแถบใต้ภาพ เพราะในภาพไม่มีปุ่มให้กด
- * • 4 จุดเด่นแสดงซ้ำเป็น HTML เฉพาะจอเล็ก เพราะตัวอักษรในภาพจะเล็กเกินอ่าน
+ * • แสดงภาพเต็มทั้งใบทุกขนาดหน้าจอ ไม่มีการครอป (ใช้สัดส่วนจริงของไฟล์)
+ * • 4 จุดเด่นแสดงซ้ำเป็นตัวอักษรเฉพาะจอเล็ก เพราะตัวหนังสือในภาพจะเล็กจนอ่านไม่ออก
  *
  * ถ้าเปลี่ยนไปใช้ภาพที่ "ไม่มีตัวหนังสือ" ให้ย้ายข้อความกลับมาทับบนภาพได้
  */
@@ -37,8 +38,8 @@ export default function Hero() {
         height={images.hero.height}
         priority
         sizes="100vw"
-        /* จอเล็ก: ครอปแถบ 4 จุดเด่นด้านล่างของภาพออก (แสดงเป็น HTML แทน) */
-        className="aspect-[1983/645] w-full object-cover object-top lg:aspect-auto lg:h-auto lg:object-fill"
+        /* แสดงเต็มใบตามสัดส่วนจริงของไฟล์ — ไม่ครอปส่วนไหนทิ้ง */
+        className="h-auto w-full"
       />
 
       {/* ───── แถบปุ่มใต้ภาพ ───── */}
@@ -62,8 +63,8 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* 4 จุดเด่น — เฉพาะจอเล็ก (บนจอใหญ่อ่านได้จากในภาพแล้ว) */}
-        <ul className="container-page grid grid-cols-1 gap-3 pb-6 sm:grid-cols-2 lg:hidden">
+        {/* 4 จุดเด่น — เฉพาะจอเล็กมาก (จอใหญ่กว่านี้อ่านจากในภาพแบนเนอร์ได้แล้ว) */}
+        <ul className="container-page grid grid-cols-1 gap-3 pb-6 sm:grid-cols-2 md:hidden">
           {heroHighlights.map((item) => {
             const Icon = icons[item.icon];
             return (
