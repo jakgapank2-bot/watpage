@@ -37,18 +37,35 @@ export default function Logo({ onDark = false, className = "" }: LogoProps) {
         ? "h-13 max-w-[8rem]" // โลโก้ทรงจัตุรัส
         : "h-16 max-w-[7rem]"; // โลโก้แนวตั้ง
 
+  /**
+   * บนพื้นหลังเข้ม ถ้ายังไม่ได้อัปโหลดโลโก้เวอร์ชันสีอ่อน
+   * ให้รองพื้นสีครีมไว้ กันโลโก้สีเข้มจมหายไปกับพื้นหลัง
+   * (อัปโหลดโลโก้สีอ่อนใส่ช่อง logoDark แล้วพื้นรองนี้จะหายไปเอง)
+   */
+  const needsBackdrop = onDark && hasFile && !images.logoDark.src;
+
+  const logoImage = hasFile ? (
+    <Image
+      src={asset(picked.src)}
+      alt={picked.alt || `โลโก้ ${site.name}`}
+      width={picked.width || 160}
+      height={picked.height || 44}
+      priority
+      sizes="220px"
+      className={`w-auto shrink-0 object-contain ${sizeClass}`}
+    />
+  ) : null;
+
   return (
     <span className={`flex items-center gap-2.5 ${className}`.trim()}>
       {hasFile ? (
-        <Image
-          src={asset(picked.src)}
-          alt={picked.alt || `โลโก้ ${site.name}`}
-          width={picked.width || 160}
-          height={picked.height || 44}
-          priority
-          sizes="220px"
-          className={`w-auto shrink-0 object-contain ${sizeClass}`}
-        />
+        needsBackdrop ? (
+          <span className="grid shrink-0 place-items-center rounded-full bg-cream-50 p-2 shadow-sm ring-1 ring-gold-500/30">
+            {logoImage}
+          </span>
+        ) : (
+          logoImage
+        )
       ) : (
         <svg viewBox="0 0 64 64" className="size-11 shrink-0" aria-hidden="true">
           <circle cx="32" cy="32" r="30" fill="#33200f" />
